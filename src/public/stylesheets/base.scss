@@ -1,0 +1,263 @@
+@import url("https://unpkg.com/element-ui/lib/theme-chalk/index.css");
+@import url('//at.alicdn.com/t/font_1049864_x7oaglqejkk.css');
+
+
+::selection {
+  background: rgba(255, 255, 255, 0.1);
+}
+::-moz-selection {
+  background: rgba(255, 255, 255, 0.1);
+}
+::-webkit-input-placeholder {
+  color:#cecece;
+}
+* {
+  border-radius: 0 !important;
+  box-shadow: none;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+*:focus,
+*:active {
+  outline: none !important;
+}
+html {
+  overflow-x: hidden;
+  -ms-overflow-style: scrollbar;
+  height: 100%;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+}
+body {
+  font-family: 'open-sans-light', sans-serif;
+  font-size: 12px;
+}
+.ie9 {
+  #sidebar {
+    min-height: 100vh;
+  }
+}
+body,
+button,
+input,
+textarea,
+select,
+.btn {
+  -webkit-font-smoothing: antialiased;
+}
+body,
+a,
+input,
+.help-block {
+  color: #fff;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.4);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'open-sans-light', sans-serif;
+  font-weight: normal;
+}
+h1,
+h2,
+h3 {
+  margin-top: 10px;
+}
+h1 small,
+h2 small,
+h3 small,
+h1 .small,
+h2 .small,
+h3 .small {
+  font-size: 60%;
+  color: rgba(255, 255, 255, 0.5);
+}
+a:hover,
+a:focus {
+  color: #ffd600;
+  text-decoration: none;
+}
+a {
+  &.underline {
+    border-bottom: 1px dotted rgba(255, 255, 255, 0.35);
+  }
+}
+a.underline:hover,
+a.underline:focus {
+  border-color: #ffd600;
+}
+ul{
+  list-style: none;
+}
+small {
+  color: #fff;
+}
+.rg{
+  float: right;
+}
+.rl{
+  float: left;
+}
+.icon {
+  width: 5em;
+  height: 5em;
+  vertical-align: -0.15em;
+  // fill: currentColor;
+  overflow: hidden;
+}
+// login
+.login-container {
+  position: absolute;
+  top: 18%;
+  left: 33%;
+  opacity: 0;
+  background:rgba(255, 255, 255, 0.1);
+  width: 33.33%;
+}
+.el-main{
+  overflow: hidden !important;
+}
+.el-main .header-img{
+  text-align: center;
+}
+.el-main img{
+  width: 23.33%;
+  min-width: 100px;
+}
+.el-main .login-welcome{
+  text-align: center;
+  overflow: hidden;
+}
+input[vue-opclet]{
+  width: 100%;
+  border: none;
+  background: none;
+  line-height: 33px;
+  margin: 10px 0;
+  border-bottom: 1px solid #9e9e9e;
+  color: #fff;
+  font-size: 1rem
+}
+div[vue-button-coffeeLogin]{
+  text-align: center;
+  margin-top: 50px;
+}
+.el-checkbox{
+  color: #c5c5c5;
+}
+.qrcode{
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+}
+.login-small{
+  margin: 10px 0;
+}
+// .svg-module{
+//   width: 10em;
+//   height: 5em;
+//   background: rgba(255, 255, 255, 1);
+//   position: absolute;
+//   top: 24px;
+//   left: -10px;
+//   transform: rotate(45deg);
+// }
+
+
+// index
+.menu-header{
+  padding: 10px 0;
+}
+.menu{
+  width: 18px;
+  height: 13px;
+  background: url(../images/icon/menu.png) no-repeat;
+  float: left;
+  margin: 10px 20px;
+  cursor: pointer;
+}
+.header-img{
+  width: 200px;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 40px;
+}
+.header-title{
+  display: inline-block;
+  float: left;
+  font-size: 1rem;
+}
+.header-img img{
+  width: 22%;
+  margin-right: 10px;
+}
+.el-header{
+  background: #333;
+}
+.menu-right{
+  line-height: 40px;
+}
+.goback{
+  margin:0 20px;
+  line-height: 40px;
+}
+
+// ********* styleSheets menu *********//
+.tag{
+  position:absolute;
+  left:200px;
+  top:60px;
+  width: 300%;
+  height: 40px;
+  background:#eef1f6;
+  line-height: 40px;
+  overflow-x: auto;
+  cursor: pointer;
+}
+.tag-con-div{
+  height:40px;
+  display:inline-block;
+  list-style:none;
+  color: #000;
+  padding: 0 40px;
+  background: #d4d6da;
+}
+.tag-con-ul{
+	width: 100%;
+	height:40px;
+	position: relative;
+  padding: 0 !important;
+  margin: 0;
+  }
+.tag ul li{
+  position: relative;
+  color: #000;
+  padding: 0 40px;
+  display: inline-block;
+  background: #d4d6da;
+  border-right: 1px solid #fff;
+}
+.tag ul li i{
+  position: absolute;
+  top: -10px;
+  right: 6px;
+}
+.tag ul li.tag_40b8ff{
+  background: #fff100;
+}
+.icon_clone{
+	width: 1rem;
+	height: 1rem;
+	vertical-align: -0.15rem;
+	fill: currentColor;
+	overflow: hidden;
+}

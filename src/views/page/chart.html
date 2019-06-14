@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" type="text/css" href="/vue-manage/src/public/stylesheets/base.min.css" />
+
+    <script src="/vue-manage/config.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://www.uin8.com/plugin/app.js"></script>
+    <script src="http://at.alicdn.com/t/font_1049864_3c8pw6trhnn.js"></script>
+
+    <title></title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="small">
+            <canvas id="myChart2" width="400px" height="100%"></canvas>
+        </div>
+        <div class="small">
+            <canvas id="mychart" width="400px" height="100%"></canvas>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="http://uin8.com/plugin/configuraction.js"></script>
+    <script src="/vue-manage/src/public/javascripts/base.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            mounted() {
+                var ctx2 = document.getElementById("myChart2"), ctx = document.getElementById('mychart');
+                var myChart2 = new Chart(ctx2, {
+                    type: "line",
+                    data: {
+                        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                        datasets: [
+                            {
+                                label: "test",
+                                backgroundColor: () => {
+                                    console.log(this);
+                                    return "rgba(225,103,110,1)";
+                                },
+                                borderColor: "rgba(225,103,110,1)",
+                                borderWidth: 1,
+                                pointStrokeColor: "#fff",
+                                pointStyle: "crossRot",
+                                data: [65, 59, 0, 81, 56, 10, 40, 22, 32, 54, 10, 30],
+                                cubicInterpolationMode: "monotone",
+                                spanGaps: "false",
+                                fill: "false"
+                            }
+                        ]
+                    }
+                })
+                var myChart = new Chart(ctx, {
+                    type: "pie",
+                    data: {
+                        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                        datasets: [
+                            {
+                                label: "test1",
+                                backgroundColor: ["rgba(225,10,10,0.3)", "rgba(225,10,10,1)"],
+                                pointStrokeColor: "#fff",
+                                pointStyle: "crossRot",
+                                data: [65, 59, 0, 81, 56, 10, 40, 22, 32, 54, 10, 30],
+                                cubicInterpolationMode: "monotone",
+                                spanGaps: "false",
+                                fill: "false"
+                            }
+                        ]
+                    }
+                });
+            }
+    })
+    </script>
+</body>
+
+</html>
