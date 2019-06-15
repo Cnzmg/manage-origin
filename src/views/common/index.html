@@ -13,7 +13,7 @@
     <title>咖速修后台管理系统</title>
 </head>
 
-<body>
+<body class="_scrollbars">
     <div id="app" style="height:100%;">
         <el-container class="index-container">
             <el-header class="menu-header">
@@ -27,7 +27,10 @@
                         <el-checkbox id="remember">无缓存模式</el-checkbox>
                     </el-col>
                     <div class="goback rg">
-                        <a href="../../app.htm">退出</a>
+                        <!-- <a href="../../app.htm">退出</a> -->
+                        <template>
+                                <a @click="goback()" style="cursor: pointer">退出</a>
+                        </template>
                     </div>
                 </div>
             </el-header>
@@ -95,7 +98,7 @@
                     </ul>
                 </div>
             </transition>
-            <iframe id="tagHref" data-index=1 scrolling="no" sandbox="allow-scripts allow-same-origin" style="border:none;width: 100%;height: 100%; margin-top: 41px;" src="/manage-origin/src/views/page/index.html" title="首页"></iframe>
+            <iframe id="tagHref" data-index=1 scrolling="no" sandbox="allow-scripts allow-same-origin" style="border:none;width: 100%;height: 100%;" src="/manage-origin/src/views/page/index.html" title="首页"></iframe>
         </el-container>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

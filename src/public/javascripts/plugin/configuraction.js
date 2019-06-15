@@ -3,7 +3,6 @@ import style from '../../stylesheets/base.min.css'
 import app from './app'
 
 sessionStorage.setItem('_e',JSON.stringify(confjson));
-
 ym.init = {
 	plugin:{
 		fn:function(){},
@@ -40,9 +39,11 @@ ym.init = {
 		if(ent.method.toUpperCase() === "POST"){
 			xml.open(ent.method, ent.uri, ent.async);
 			xml.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
+			xml.setRequestHeader('Authorization', JSON.parse(sessionStorage.getItem('token')).secret);
 			xml.send(postData);
 		}else if(ent.method.toUpperCase() === "GET"){
 			xml.open(ent.method, ent.uri + '?' + postData, ent.async);
+			xml.setRequestHeader('Authorization', JSON.parse(sessionStorage.getItem('token')).secret);
 			xml.send(null);
 		}
 		xml.onreadystatechange = function(){

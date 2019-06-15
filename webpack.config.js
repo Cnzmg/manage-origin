@@ -16,6 +16,7 @@ module.exports = {
         login: './src/public/javascripts/login.js', //登陆操作
         index: './src/public/javascripts/index.js', //common index
         list: './src/public/javascripts/list.js', //list
+        crud: './src/public/javascripts/crud.js', //crud
     },
     output: {
         filename: '[name]._23_aKvs-b8bW2Vg3fwHozO.js',
@@ -76,6 +77,16 @@ module.exports = {
             },
             hash: true,
             chunks: ['config','list']
+        }),
+        new HtmlWebpackPlugin({  //management
+            template: './src/views/page/management.html',
+            filename: '../views/management.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','crud']
         }),
         new MiniCssExtractPlugin({
             template: './src/public/stylesheets/base.min.css',

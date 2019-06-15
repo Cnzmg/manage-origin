@@ -133,6 +133,26 @@ new Vue({
             </svg></i></li>`
             );
             tag();  //
+        },
+        goback() {
+            const it = this;
+            ym.init.XML({
+                method: 'GET',
+                uri: JSON.parse(sessionStorage.getItem('_e')).URLS.Development_Server_ + 'admin_logout',
+                async: false,
+                xmldata: {},
+                done: function (res) {
+                    try {
+                        ym.init.RegCode(200).test(res.state) ? (() => {
+                            location.href = '../../app.htm?[hash]:ix';
+                        })() : (() => {
+                            throw "收集到错误：\n\n" + res.msg;
+                        })();
+                    } catch (error) {
+                        it.Error(error);
+                    }
+                }
+            });
         }
     }
 });

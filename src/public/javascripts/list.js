@@ -26,6 +26,7 @@ new Vue({
             select: '',
             searchVal: '',
             searchName: '',
+            selects: '',
             tags: {},   //待定
             selectFil: '',
             selectMater: '',
@@ -41,7 +42,8 @@ new Vue({
             UpdateTableFormData: [],
             listId: '',
             productCount: 0,
-            productId: []
+            productId: [],
+            ids: []
         }
     },
     created: function () {
@@ -95,6 +97,7 @@ new Vue({
             if (uri == 'client_user_list') _data['type'] = 1;
             if (uri == 'manage_dividend_list') _data['type'] = 1;
             _data['page'] = it.page;
+            _data['pageSize'] = it.pageSize;
             // token.secret
             ym.init.XML({
                 method: (uri == 'find_machine_poi_list' || uri == 'get_activity_list' || uri == 'statistics_list' || uri == 'maintainer_list' ? "GET" : 'POST'),
@@ -102,19 +105,23 @@ new Vue({
                 async: false,
                 xmldata: _data,
                 done: function (res) {
-                    ym.init.RegCode(token._j.successfull).test(res.statusCode.status) ? (() => {
+                    ym.init.RegCode('200').test(res.state) ? (() => {
                         switch (uri) {
                             case `admin_list`:
-                                for (let i = 0; i < res.adminShowList.length; i++) {
+                                for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
-                                        adminId: res.adminShowList[i].adminId,
-                                        realName: res.adminShowList[i].realName,
-                                        adminName: res.adminShowList[i].adminName,
-                                        roleId: res.adminShowList[i].roleId,
-                                        adminStatus: res.adminShowList[i].adminStatus,
-                                        nickName: res.adminShowList[i].nickName + '/' + res.adminShowList[i].userId,
-                                        registerTime: res.adminShowList[i].registerTime,
-                                        parentAdminName: res.adminShowList[i].parentAdminName
+                                        id: res.data.list[i].id,
+                                        adminName: res.data.list[i].adminName,
+                                        phone: res.data.list[i].phone,
+                                        realName: res.data.list[i].realName,
+                                        weChatId: (res.data.list[i].weChatId == -1 ? "无" : res.data.list[i].weChatId),
+                                        headImgPic: (res.data.list[i].headImgPic == -1 ? '无' : res.data.list[i].headImgPic),
+                                        nickName: (res.data.list[i].nickName == -1 ? "无" : res.data.list[i].nickName),
+                                        parentId: (res.data.list[i].parentId == -1 ? "无" : res.data.list[i].parentId),
+                                        parentAdminName: (res.data.list[i].parentAdminName == -1 ? "无" : res.data.list[i].parentAdminName),
+                                        parentRealName: (res.data.list[i].parentRealName == -1 ? "无" : res.data.list[i].parentRealName),
+                                        isService: res.data.list[i].isService,
+                                        status: res.data.list[i].status
                                     })
                                 }
                                 break;
@@ -423,18 +430,18 @@ new Vue({
                             default:
                                 break;
                         }
-                        it.total = parseInt(res.pageCount * 20);
-                        // it.currentPage = parseInt(res.pageCount);  数据总条数
+                        it.total = parseInt(res.data.total);
+                        it.currentPage = parseInt(res.pageSize);  //数据总条数
                         it.tableData = xml;
                         it.loading = false;
                     })()
                         :
-                        it.IError(res.statusCode.msg);
+                        it.IError(res.msg);
                 }
             })
         },
-        crud(arg) {
-            window.parent.document.getElementById('tagHref').setAttribute('src', `../${arg.uri}.html?[hash]${arg.enitId ? '*' + encodeURI(JSON.stringify(arg.enitId)) : ''}`); // 编辑带参数
+        crud(arg) {  //检查路由
+            window.parent.document.getElementById('tagHref').setAttribute('src', `../../views/${arg.uri}.htm?[hash]${arg.enitId ? '*' + encodeURI(JSON.stringify(arg.enitId)) : ''}`); // 编辑带参数
         },
         //列表操作
         //清单列表
@@ -563,7 +570,7 @@ new Vue({
                                         it.UpdateTableFormData = [];
                                         ym.init.RegCode(token._j.successfull).test(res.statusCode.status) ? (() => {
                                             it.ISuccessfull(res.statusCode.msg);
-                                            it.listoperation({_tag:'manage_prodcut_list_list',_evt: it.listId,_type: 'S'});  //刷新列表
+                                            it.listoperation({ _tag: 'manage_prodcut_list_list', _evt: it.listId, _type: 'S' });  //刷新列表
                                         })() :
                                             (() => {
                                                 throw "收集到错误：\n\n" + res.statusCode.msg;
@@ -586,8 +593,10 @@ new Vue({
             this.multipleSelection = val;
             this.productCount = val.length;
             this.productId = [];
+            this.ids = [];
             val.forEach(e => {
-                this.productId.push(e.productId)
+                this.productId.push(e.productId);
+                this.ids.push(e.id);
             });
         },
         filterTag(value, row) {
@@ -596,5 +605,90 @@ new Vue({
         tableChecked(e) {
             this.$refs.multipleTable.toggleRowSelection(this.UpdateTableFormData[e], true);
         },
+        Idelete(e) {  //删除
+            const it = this;
+            _data['ids'] = [e._id];
+            ym.init.XML({
+                method: 'POST',
+                uri: token._j.URLS.Development_Server_ + e.uri,
+                async: false,
+                xmldata: _data,
+                done: function (res) {
+                    try {
+                        ym.init.RegCode(token._j.successfull).test(res.state) ? (() => {
+                            it.ISuccessfull(res.msg);
+                            it.list();
+                        })() : (() => {
+                            throw "收集到错误：\n\n" + res.msg;
+                        })();
+                    } catch (error) {
+                        it.IError(error);
+                    }
+                }
+            });
+        },
+        batchOperation(e) {  //批量操作
+            const it = this;
+            switch (e.type) {
+                case 'list':
+                    ym.init.XML({
+                        method: 'POST',
+                        uri: token._j.URLS.Development_Server_ + uri,
+                        async: false,
+                        xmldata: _data,
+                        done: function (res) {
+                            try {
+                                ym.init.RegCode(token._j.successfull).test(res.state) ? ((_xml = []) => {
+                                    res.data.list.forEach((e, index) => {
+                                        _xml.push({
+                                            id: e.id,
+                                            adminName: e.adminName,
+                                            phone: e.phone,
+                                            realName: e.realName,
+                                            weChatId: (e.weChatId == -1 ? "无" : e.weChatId),
+                                            headImgPic: (e.headImgPic == -1 ? '无' : e.headImgPic),
+                                            nickName: (e.nickName == -1 ? "无" : e.nickName),
+                                            parentId: (e.parentId == -1 ? "无" : e.parentId),
+                                            parentAdminName: (e.parentAdminName == -1 ? "无" : e.parentAdminName),
+                                            parentRealName: (e.parentRealName == -1 ? "无" : e.parentRealName),
+                                            isService: e.isService,
+                                            status: e.status
+                                        })
+                                    });
+                                    it.UpdateTableFormData = _xml;
+                                })() : (() => {
+                                    throw "收集到错误：\n\n" + res.msg;
+                                })();
+                            } catch (error) {
+                                it.IError(error);
+                            }
+                        }
+                    });
+                    break;
+                default:   //批量修改
+                    e._suc == "ZC" ? _data['type'] = 1 : _data['type'] = 0;
+                    _data['ids'] = it.ids;
+                    ym.init.XML({
+                        method: 'POST',
+                        uri: token._j.URLS.Development_Server_ + 'change_admin_status',
+                        async: false,
+                        xmldata: _data,
+                        done: function (res) {
+                            try {
+                                ym.init.RegCode(token._j.successfull).test(res.state) ? (() => {
+                                    it.ISuccessfull(res.msg);
+                                    it.list();
+                                    it.UpdateTableAndVisible = false;
+                                })() : (() => {
+                                    throw "收集到错误：\n\n" + res.msg;
+                                })();
+                            } catch (error) {
+                                it.IError(error);
+                            }
+                        }
+                    });
+                    break;
+            }
+        }
     }
 });

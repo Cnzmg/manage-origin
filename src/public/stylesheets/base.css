@@ -285,3 +285,62 @@ div[vue-button-coffeeLogin] {
   fill: currentColor;
   overflow: hidden;
 }
+
+.el-pagination {
+  float: right;
+  margin-right: 30px;
+  margin-bottom: 212px;
+  margin-top: 30px;
+}
+
+._scrollbars::-webkit-scrollbar {
+  width: 10px;
+  height: 1px;
+}
+
+._scrollbars::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+._scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 1px;
+}
+
+._scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+._scrollbar {
+  overflow-y: auto;
+  margin-top: 40.5px;
+  background: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.more_search {
+  margin: 10px 0;
+  color: #40b8ff;
+  display: block;
+  cursor: pointer;
+}
+
+._search_centent {
+  margin: 10px 0;
+}
+
+._searchVal {
+  width: 400px;
+}
+
+._searchVal_select {
+  width: 120px;
+  margin: 10px 0;
+}
+
+.el-message {
+  top: 80px !important;
+}
