@@ -39,16 +39,17 @@ ym.init = {
 		if(ent.method.toUpperCase() === "POST"){
 			xml.open(ent.method, ent.uri, ent.async);
 			xml.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
-			xml.setRequestHeader('Authorization', JSON.parse(sessionStorage.getItem('token')).secret);
+			sessionStorage.getItem('token') != null ? xml.setRequestHeader('Authorization', JSON.parse(sessionStorage.getItem('token')).secret) : null;
 			xml.send(postData);
 		}else if(ent.method.toUpperCase() === "GET"){
 			xml.open(ent.method, ent.uri + '?' + postData, ent.async);
-			xml.setRequestHeader('Authorization', JSON.parse(sessionStorage.getItem('token')).secret);
+			sessionStorage.getItem('token') != null ? xml.setRequestHeader('Authorization', JSON.parse(sessionStorage.getItem('token')).secret) : null;
 			xml.send(null);
 		}
 		xml.onreadystatechange = function(){
 			if(xml.readyState == 4 && xml.status == 200){
-				ent.done(JSON.parse(xml.responseText));
+				let code = xml.responseText.replace(/-1|"-1"/g, '\"无\"');
+				ent.done(JSON.parse(code));
 			}
 		}
 	},

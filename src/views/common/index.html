@@ -8,7 +8,7 @@
 
     <script src="http://www.uin8.com/plugin/app.js"></script>
     <script src="//at.alicdn.com/t/font_1049864_8hiytz865e6.js"></script>
-    <script src="/manage-origin/src/public/javascripts/plugin/jquery.min.js"></script>
+    <script src="../../plugin/_/jquery.min.js"></script>
 
     <title>咖速修后台管理系统</title>
 </head>
@@ -19,7 +19,7 @@
             <el-header class="menu-header">
                 <a class="menu" title="菜单"></a>
                 <div class="header-img">
-                    <img class="rl" src="/manage-origin/src/public/images/icon/logo.jpg" alt="头像管理" />
+                    <img class="rl" src="/plugin/-/a125a2e4faa11b09c0e3149c6704e46d.jpg" alt="头像管理" />
                     <span class="header-title">Dream come true </span>
                 </div>
                 <div class="menu-right rg">
@@ -44,13 +44,14 @@
                             <el-menu-item-group>
                                 <template slot="title">用户信息</template>
                                 <el-menu-item index="1-1" v-on:click="Href({uri:'../list.htm',title:'用户列表'})">用户列表</el-menu-item>
+                                <el-menu-item index="1-2" v-on:click="Href({uri:'../log.htm',title:'日志列表'})">日志列表</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="2">
                             <template slot="title"><i class="el-icon-menu"></i>师傅模块</template>
                             <el-menu-item-group>
                                 <template slot="title">师傅信息</template>
-                                <el-menu-item index="2-2" v-on:click="Href()" >师傅列表</el-menu-item>
+                                <el-menu-item index="2-2" v-on:click="Href({uri:'../machineterlist.htm',title:'师傅列表'})" >师傅列表</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="3">
@@ -98,11 +99,11 @@
                     </ul>
                 </div>
             </transition>
-            <iframe id="tagHref" data-index=1 scrolling="no" sandbox="allow-scripts allow-same-origin" style="border:none;width: 100%;height: 100%;" src="/manage-origin/src/views/page/index.html" title="首页"></iframe>
+            <iframe id="tagHref" data-index=1 scrolling="no" sandbox="allow-scripts allow-same-origin" style="border:none;width: 100%;height: 100%;" src="../index.htm" title="首页"></iframe>
         </el-container>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="/manage-origin/src/public/javascripts/plugin/element-ui.min.js"></script><script>
+    <script src="../../plugin/_/element-ui.min.js"></script><script>
             var all = {};
             all['jq'] = $;
             all['json'] = {

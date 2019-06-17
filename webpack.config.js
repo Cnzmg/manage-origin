@@ -88,6 +88,26 @@ module.exports = {
             hash: true,
             chunks: ['config','crud']
         }),
+        new HtmlWebpackPlugin({  //log
+            template: './src/views/page/log.html',
+            filename: '../views/log.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','list']
+        }),
+        new HtmlWebpackPlugin({  //machineterlist
+            template: './src/views/page/machineterlist.html',
+            filename: '../views/machineterlist.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','list']
+        }),
         new MiniCssExtractPlugin({
             template: './src/public/stylesheets/base.min.css',
             filename: '../stylesheets/[name]_23_aKvs-b8bW2Vg3fwHozO.css'

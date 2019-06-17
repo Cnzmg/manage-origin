@@ -100,51 +100,66 @@ new Vue({
             _data['pageSize'] = it.pageSize;
             // token.secret
             ym.init.XML({
-                method: (uri == 'find_machine_poi_list' || uri == 'get_activity_list' || uri == 'statistics_list' || uri == 'maintainer_list' ? "GET" : 'POST'),
+                method: (uri == 'find_machine_poi_list' || uri == 'get_activity_list' || uri == 'statistics_list' ? "GET" : 'POST'),
                 uri: token._j.URLS.Development_Server_ + uri,
                 async: false,
                 xmldata: _data,
                 done: function (res) {
                     ym.init.RegCode('200').test(res.state) ? (() => {
                         switch (uri) {
-                            case `admin_list`:
+                            case `admin_list`:  //后台管理用户
                                 for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
                                         id: res.data.list[i].id,
                                         adminName: res.data.list[i].adminName,
                                         phone: res.data.list[i].phone,
                                         realName: res.data.list[i].realName,
-                                        weChatId: (res.data.list[i].weChatId == -1 ? "无" : res.data.list[i].weChatId),
-                                        headImgPic: (res.data.list[i].headImgPic == -1 ? '无' : res.data.list[i].headImgPic),
-                                        nickName: (res.data.list[i].nickName == -1 ? "无" : res.data.list[i].nickName),
-                                        parentId: (res.data.list[i].parentId == -1 ? "无" : res.data.list[i].parentId),
-                                        parentAdminName: (res.data.list[i].parentAdminName == -1 ? "无" : res.data.list[i].parentAdminName),
-                                        parentRealName: (res.data.list[i].parentRealName == -1 ? "无" : res.data.list[i].parentRealName),
+                                        weChatId: res.data.list[i].weChatId,
+                                        headImgPic: res.data.list[i].headImgPic,
+                                        nickName: res.data.list[i].nickName,
+                                        parentId: res.data.list[i].parentId,
+                                        parentAdminName: res.data.list[i].parentAdminName,
+                                        parentRealName: res.data.list[i].parentRealName,
                                         isService: res.data.list[i].isService,
                                         status: res.data.list[i].status
                                     })
                                 }
                                 break;
-                            case `find_log_list`:
-                                for (let i = 0; i < res.logInfoList.length; i++) {
+                            case `admin_log_list`:  //操作日志
+                                for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
-                                        adminName: res.logInfoList[i].adminName,
-                                        logContent: res.logInfoList[i].logContent,
-                                        logTime: res.logInfoList[i].logTime,
-                                        permissionName: res.logInfoList[i].permissionName,
-                                        realName: res.logInfoList[i].realName,
-                                        roleId: res.logInfoList[i].roleId
+                                        id: res.data.list[i].id,
+                                        ipAddress: res.data.list[i].ipAddress,
+                                        operateResult: res.data.list[i].operateResult,
+                                        operateType: (res.data.list[i].operateType == 1 ? '增加' : res.data.list[i].operateType == 2 ? '查询' : res.data.list[i].operateType == 3 ? '修改' : '删除' ),
+                                        moduleId: res.data.list[i].moduleId,
+                                        moduleName: res.data.list[i].moduleName,
+                                        exceptionVal: res.data.list[i].exceptionVal,
+                                        createBy: res.data.list[i].createBy,
+                                        createTime: res.data.list[i].createTime,
+                                        createName: res.data.list[i].createName
                                     })
                                 }
                                 break;
-                            case `find_formula_list`:
-                                for (let i = 0; i < res.formulaInfoList.length; i++) {
+                            case `maintainer_list`:   //师傅列表
+                                for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
-                                        formulaId: res.formulaInfoList[i].formulaId,
-                                        formulaName: res.formulaInfoList[i].formulaName,
-                                        createTime: res.formulaInfoList[i].createTime,
-                                        machineType: res.formulaInfoList[i].machineType,
-                                        formulaTemperature: res.formulaInfoList[i].formulaTemperature
+                                        id: res.data.list[i].id,
+                                        accounts: res.data.list[i].accounts,
+                                        phone: res.data.list[i].phone,
+                                        weChatId: res.data.list[i].weChatId,
+                                        nickName: res.data.list[i].nickName,
+
+                                        realName: res.data.list[i].realName,
+                                        alias: res.data.list[i].alias,
+                                        headImgPic: res.data.list[i].headImgPic,
+                                        gender: res.data.list[i].gender,
+                                        level: res.data.list[i].level,
+
+                                        integral: res.data.list[i].integral,
+                                        province: res.data.list[i].province + res.data.list[i].city + res.data.list[i].district,
+                                        royaltyRate: res.data.list[i].royaltyRate,
+                                        status: res.data.list[i].status
                                     })
                                 }
                                 break;
@@ -666,7 +681,7 @@ new Vue({
                     });
                     break;
                 default:   //批量修改
-                    e._suc == "ZC" ? _data['type'] = 1 : _data['type'] = 0;
+                    e._suc == "ZC" ? _data['type'] = +true : _data['type'] = +false;
                     _data['ids'] = it.ids;
                     ym.init.XML({
                         method: 'POST',
