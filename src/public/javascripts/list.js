@@ -43,7 +43,9 @@ new Vue({
             listId: '',
             productCount: 0,
             productId: [],
-            ids: []
+            ids: [],
+            SearchTableAndVisible: false,
+            SearchTableFormData: []
         }
     },
     created: function () {
@@ -131,7 +133,7 @@ new Vue({
                                         id: res.data.list[i].id,
                                         ipAddress: res.data.list[i].ipAddress,
                                         operateResult: res.data.list[i].operateResult,
-                                        operateType: (res.data.list[i].operateType == 1 ? '增加' : res.data.list[i].operateType == 2 ? '查询' : res.data.list[i].operateType == 3 ? '修改' : '删除' ),
+                                        operateType: (res.data.list[i].operateType == 1 ? '增加' : res.data.list[i].operateType == 2 ? '查询' : res.data.list[i].operateType == 3 ? '修改' : '删除'),
                                         moduleId: res.data.list[i].moduleId,
                                         moduleName: res.data.list[i].moduleName,
                                         exceptionVal: res.data.list[i].exceptionVal,
@@ -655,20 +657,38 @@ new Vue({
                             try {
                                 ym.init.RegCode(token._j.successfull).test(res.state) ? ((_xml = []) => {
                                     res.data.list.forEach((e, index) => {
-                                        _xml.push({
-                                            id: e.id,
-                                            adminName: e.adminName,
-                                            phone: e.phone,
-                                            realName: e.realName,
-                                            weChatId: (e.weChatId == -1 ? "无" : e.weChatId),
-                                            headImgPic: (e.headImgPic == -1 ? '无' : e.headImgPic),
-                                            nickName: (e.nickName == -1 ? "无" : e.nickName),
-                                            parentId: (e.parentId == -1 ? "无" : e.parentId),
-                                            parentAdminName: (e.parentAdminName == -1 ? "无" : e.parentAdminName),
-                                            parentRealName: (e.parentRealName == -1 ? "无" : e.parentRealName),
-                                            isService: e.isService,
-                                            status: e.status
-                                        })
+                                        switch (uri) {
+                                            case 'admin_list':
+                                                _xml.push({
+                                                    id: e.id,
+                                                    adminName: e.adminName,
+                                                    phone: e.phone,
+                                                    realName: e.realName,
+                                                    weChatId: (e.weChatId == -1 ? "无" : e.weChatId),
+                                                    headImgPic: (e.headImgPic == -1 ? '无' : e.headImgPic),
+                                                    nickName: (e.nickName == -1 ? "无" : e.nickName),
+                                                    parentId: (e.parentId == -1 ? "无" : e.parentId),
+                                                    parentAdminName: (e.parentAdminName == -1 ? "无" : e.parentAdminName),
+                                                    parentRealName: (e.parentRealName == -1 ? "无" : e.parentRealName),
+                                                    isService: e.isService,
+                                                    status: e.status
+                                                })
+                                                break;
+                                            case 'maintainer_list':
+                                                _xml.push({
+                                                    id: e.id,
+                                                    accounts:e.accounts,
+                                                    phone:e.phone,
+                                                    weChatId:e.weChatId,
+                                                    nickName:e.nickName,
+                                                    realName:e.realName,
+                                                    headImgPic:e.headImgPic,
+                                                    status:e.status
+                                                })
+                                                break;
+                                            default:
+                                                break;
+                                        }
                                     });
                                     it.UpdateTableFormData = _xml;
                                 })() : (() => {
@@ -685,7 +705,7 @@ new Vue({
                     _data['ids'] = it.ids;
                     ym.init.XML({
                         method: 'POST',
-                        uri: token._j.URLS.Development_Server_ + 'change_admin_status',
+                        uri: token._j.URLS.Development_Server_ + e._ur,
                         async: false,
                         xmldata: _data,
                         done: function (res) {
@@ -704,6 +724,27 @@ new Vue({
                     });
                     break;
             }
+        },
+        search(e){  //查询维修数据
+            const it = this;
+            _data['id'] = e.enitId.id
+            ym.init.XML({
+                method: 'GET',
+                uri: token._j.URLS.Development_Server_ + e.uri,
+                async: false,
+                xmldata: _data,
+                done: function (res) {
+                    try {
+                        ym.init.RegCode(token._j.successfull).test(res.state) ? (() => {
+                            
+                        })() : (() => {
+                            throw "收集到错误：\n\n" + res.msg;
+                        })();
+                    } catch (error) {
+                        it.IError(error);
+                    }
+                }
+            });
         }
     }
 });

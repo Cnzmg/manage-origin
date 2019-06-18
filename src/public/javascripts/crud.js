@@ -1,3 +1,4 @@
+import { regionData, CodeToText, TextToCode } from 'element-china-area-data'
 const [
     $,
     token,
@@ -14,7 +15,7 @@ const [
         parent.document.getElementById('tagHref').getAttribute('src')
     ];
 const _data = {
-}
+};
 new Vue({
     el: '#app',
     data: () => {
@@ -138,6 +139,15 @@ new Vue({
                 weChatId: '',
                 parentId: '',
                 isService: 0,
+                gender: 1,
+                province: [], // 省市区
+                country: '中国',
+                royaltyRate: 0,
+                accounts: '',
+                identity: '',
+                identityFront: '',
+                identityBehind: '',
+                level: 1
             },
             rules: {
                 adminName: [
@@ -165,11 +175,16 @@ new Vue({
             productFlavorList: [],
             radioclod: false,
             imageList: {
-                machine: [],
-                product: [],
-                detail: []
+                picHeaders: [],
+                IDFor: [],
+                IDBeh: []
             },
-            disAdminName: false
+            disAdminName: false,
+            sect: {
+                Authorization: JSON.parse(sessionStorage.getItem('token')).secret
+            },
+            rateTag: '',
+            address: regionData
         }
     },
     created: function () {
@@ -278,14 +293,13 @@ new Vue({
         Ienit(e) {
             const it = this;
             let _uri = '';
+            _data['id'] = JSON.parse(e).id;
             switch (uri) {
                 case 'add_or_update_admin':
                     _uri = 'admin_detail';
-                    _data['id'] = JSON.parse(e).id;
                     break;
-                case 'manage_product':
-                    _data['type'] = 1;
-                    _data['productId'] = JSON.parse(e).productId;
+                case 'add_or_update_maintainer':
+                    _uri = 'sys_maintainer_detail';
                     break;
                 default:
                     break;
@@ -308,44 +322,34 @@ new Vue({
                                 it.ruleForm.parentId = (res.data.parentId == -1 ? "" : res.data.parentId);
                                 it.ruleForm.isService = res.data.isService;
                                 break;
-                            case 'manage_product':
+                            case 'add_or_update_maintainer':
                                 try {
-                                    it.formulaIds.forEach(ex => {
-                                        if (ex.value == res.productInfo.formulaId) {
-                                            it.ruleForm.formulaId = ex.value;  //配方
-                                        }
-                                    });
-                                    it.ruleForm.productName = res.productInfo.productName;  //产品名称
-                                    it.ruleForm.productPrice = res.productInfo.productPrice;  //产品价格
-                                    it.imageList.machine.push({ name: 'machinePic', url: res.productInfo.productMachinePicurl }); //机器产品图片
-                                    it.imageList.product.push({ name: 'product', url: res.productInfo.productPicurl }); //手机产品图片
-                                    it.imageList.detail.push({ name: 'detail', url: res.productInfo.productMachineDetailPicurl }); //小机器详情图片
+                                    it.ruleForm.accounts = res.data.accounts;  //账号
+                                    it.ruleForm.phone = res.data.phone;  //手机号码
 
-                                    it.ruleForm.productMachinePicurl = res.productInfo.productMachinePicurl; //机器产品图片
-                                    it.ruleForm.productPicurl = res.productInfo.productPicurl; //手机产品图片
-                                    it.ruleForm.productMachineDetailPicurl = res.productInfo.productMachineDetailPicurl; //小机器详情图片
+                                    it.imageList.picHeaders.push({ name: 'picHeaders', url: res.data.headImgPic }); //头像
+                                    it.imageList.IDFor.push({ name: 'IDFor', url: res.data.identityFront }); //身份证
+                                    it.imageList.IDBeh.push({ name: 'IDBeh', url: res.data.identityBehind }); //身份证
 
-                                    it.ruleForm.productRank = res.productInfo.productRank;  //排序
-                                    it.ruleForm.operateType = res.productInfo.operateType;  //产品属性
-                                    it.ruleForm.productStatus = res.productInfo.productStatus;  //是否上架
-                                    it.ruleForm.productTemperature = res.productInfo.productTemperature;  //冷热状态
-                                    it.ruleForm.machineType = res.productInfo.machineType;  //设备类型
-                                    if (res.productInfo.productTemperature == 1) { //冷热锁定
-                                        it.radioclod = true;
-                                    }
-                                    if (res.productInfo.machineType == 1) {  //大机器才有
-                                        res.productFlavorList.forEach(e => { //口味信息
-                                            it.productFlavorList.push({
-                                                value: e.bunkerNumber,
-                                                label: e.flavorName,
-                                                hide: e.hide
-                                            });
-                                        });
-                                    }else{
-                                        it.samllfileUpdata = true;  //详情图片开启
-                                    }
+                                    it.ruleForm.headImgPic = res.data.headImgPic; //头像
+                                    it.ruleForm.producidentityFronttPicurl = res.data.identityFront; //身份证
+                                    it.ruleForm.identityBehind = res.data.identityBehind; //身份证
 
-                                    it.ruleForm.productComment = res.productInfo.productComment;  //冷热状态
+                                    it.ruleForm.realName = res.data.realName;  //真名
+                                    it.ruleForm.alias = res.data.alias;  //别名
+                                    it.ruleForm.weChatId = res.data.weChatId == '无' ? '' : res.data.weChatId;  //微信ID
+                                    it.ruleForm.nickName = res.data.nickName;  //昵称
+
+                                    it.ruleForm.gender = res.data.gender;  //性别
+                                    it.ruleForm.age = res.data.age;  //年龄
+                                    it.ruleForm.identity = res.data.identity;  //身份证号码
+                                    it.ruleForm.level = res.data.level;  // 星级
+                                    it.ruleForm.country = res.data.country;  // 国家
+                                    it.ruleForm.royaltyRate = res.data.royaltyRate;  // 分润
+                                    
+                                    // it.ruleForm.province.push(TextToCode[res.data.province], TextToCode[res.data.city], TextToCode[res.data.district]); // 省市区
+                                    it.ruleForm.province.push([TextToCode[res.data.province],TextToCode[res.data.city],TextToCode[res.data.district]]);  //待解决
+
                                 } catch (error) {
                                     it.IError(error);
                                     throw error;
@@ -363,43 +367,87 @@ new Vue({
                 }
             })
         },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
+        handleRemove(file, fileList) {  //删除图片
+            // console.log(file, fileList);
+            _data['fileName'] = file.response.data.path;
+            const it = this;
+            ym.init.XML({
+                method: 'POST',
+                uri: token._j.URLS.Development_Server_ + 'file_deleted',
+                async: false,
+                xmldata: _data,
+                done: function (res) {
+                    try {
+                        ym.init.RegCode(token._j.successfull).test(res.state) ? (() => {
+                            it.ISuccessfull(res.msg);
+                        })() : (() => {
+                            throw "收集到错误：\n\n" + res.msg;
+                        })();
+                    } catch (error) {
+                        it.IError(error);
+                    }
+                }
+            });
         },
-        handlePictureCardPreview(file) {
+        handlePictureCardPreview(file) {  //放大图片
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
         },
-        fileExceed() {
+        fileExceed() {  //限制文件上传图片
             this.IError('只允许一张图片')
         },
-        fileChange() {
-            this.fileData['type'] = 3;  //动态配置
+        fileChange(file) {  //文件上传不管是否成功都回触发
+            console.log(file);
         },
-        filePicChange() {
-            this.fileData['type'] = 2;  //动态配置
+        filePicSuccess(e) {  //头像文件上传成功
+            this.ruleForm.headImgPic = e.data.path;
         },
-        fileMachineSuccess(e) {
-            this.ruleForm.productMachinePicurl = e.realPath;
+        fileIDForSuccess(e) {  //身份证正面文件上传成功
+            this.ruleForm.identityFront = e.data.path;
         },
-        filePicSuccess(e) {
-            this.ruleForm.productPicurl = e.realPath;
-        },
-        fileDateilSuccess(e) {
-            this.ruleForm.productMachineDetailPicurl = e.realPath;
+        fileIDBehSuccess(e) {  //身份证反面文件上传成功
+            this.ruleForm.identityBehind = e.data.path;
         },
         submitForm(formName) {  //提交管理员信息
-            if(dataHref.split('*').length > 1){
-                _data['id'] = JSON.parse(decodeURI(dataHref.split('*')[1])).id;
-            }
             const it = this;
-            _data['adminName'] = formName.adminName || '';
-            _data['phone'] = formName.phone || '';
-            _data['pwd'] = formName.pwd || '';
-            _data['realName'] = formName.realName || '';
-            _data['weChatId'] = formName.weChatId || '';
-            _data['parentId'] = formName.parentId || '';
-            _data['isService'] = formName.isService || 0;
+            if (dataHref.split('*').length > 1) {
+                _data['id'] = JSON.parse(decodeURI(dataHref.split('*')[1])).id;  //统一的编辑id
+            }
+            switch (uri) {
+                case 'add_or_update_maintainer':  //添加运维
+                    _data['accounts'] = formName.accounts || '';
+                    _data['pwd'] = formName.pwd || '';
+                    _data['phone'] = formName.phone || '';
+                    _data['weChatId'] = formName.weChatId || '';
+                    _data['realName'] = formName.realName || '';
+                    _data['alias'] = formName.alias || '';
+                    _data['headImgPic'] = formName.headImgPic || '';
+                    
+                    _data['gender'] = formName.gender || '';
+                    _data['age'] = formName.age || '';
+                    _data['identity'] = formName.identity || '';
+                    _data['identityFront'] = formName.identityFront || '';
+                    _data['identityBehind'] = formName.identityBehind || '';
+                    _data['level'] = formName.level;
+
+                    _data['province'] = CodeToText[this.ruleForm.province[0]] || '';
+                    _data['city'] = CodeToText[this.ruleForm.province[1]] || '';
+                    _data['district'] = CodeToText[this.ruleForm.province[2]] || '';
+                    
+                    
+                    _data['country'] = formName.country || '';
+                    _data['royaltyRate'] = formName.royaltyRate || 0;
+                    break;
+                default:
+                    _data['adminName'] = formName.adminName || '';
+                    _data['phone'] = formName.phone || '';
+                    _data['pwd'] = formName.pwd || '';
+                    _data['realName'] = formName.realName || '';
+                    _data['weChatId'] = formName.weChatId || '';
+                    _data['parentId'] = formName.parentId || '';
+                    _data['isService'] = formName.isService || 0;
+                    break;
+            }
             ym.init.XML({
                 method: 'POST',
                 uri: token._j.URLS.Development_Server_ + uri,
@@ -460,6 +508,10 @@ new Vue({
             } catch (error) {
                 this.IError(error);
             }
+        },
+        handleChange(e) {
+            //地区选项 CodeToText
+            this.resetForm.province = e;
         }
     }
 })

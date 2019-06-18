@@ -17,7 +17,7 @@
             <el-main>
                 <el-form>
                     <div style="width: 100%;margin-bottom:10px;">
-                        <el-button @click="crud({uri:'management'})" type="primary">添加<i
+                        <el-button @click="crud({uri:'machineter'})" type="primary">添加<i
                                 class="el-icon-plus el-icon--right"></i></el-button>
                         <el-button @click="batchOperation({type:'list'});UpdateTableAndVisible = true" type="primary">
                             批量修改状态</el-button>
@@ -63,7 +63,13 @@
                     <el-table-column prop="phone" label="手机号"></el-table-column>
                     <el-table-column prop="realName" label="真实姓名"></el-table-column>
                     <el-table-column prop="weChatId" label="密钥关联ID"></el-table-column>
-                    <el-table-column prop="headImgPic" label="微信头像"></el-table-column>
+                    <el-table-column prop="headImgPic" label="微信头像">
+                        <template slot-scope="scope">
+                            <el-image :src="scope.row.headImgPic">
+
+                            </el-image>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="nickName" label="微信昵称"></el-table-column>
 
                     <el-table-column prop="alias" label="别名"></el-table-column>
@@ -84,11 +90,15 @@
 
                     <el-table-column fixed="right" label="操作">
                         <template slot-scope="scope">
-                            <el-button type="text" size="small" @click="crud({uri:'management', enitId: scope.row})">
+                            <el-button type="text" size="small"
+                                @click="search({uri:'maintainer_data_detail', enitId: scope.row});SearchTableAndVisible = true">
+                                查看
+                            </el-button>
+                            <el-button type="text" size="small" @click="crud({uri:'machineter', enitId: scope.row})">
                                 编辑
                             </el-button>
                             <el-button type="text" size="small"
-                                @click="Idelete({uri:'deleted_admin',_id:scope.row.id})">
+                                @click="Idelete({uri:'deleted_maintainer',_id:scope.row.id})">
                                 删除
                             </el-button>
                         </template>
@@ -110,21 +120,16 @@
                     <el-table-column type="selection" width="55">
                     </el-table-column>
                     <el-table-column prop="id" label="ID" fixed></el-table-column>
-                    <el-table-column prop="adminName" label="账户"></el-table-column>
+                    <el-table-column prop="accounts" label="账户"></el-table-column>
                     <el-table-column prop="phone" label="手机号"></el-table-column>
                     <el-table-column prop="realName" label="真实姓名"></el-table-column>
                     <el-table-column prop="weChatId" label="密钥关联ID"></el-table-column>
-                    <el-table-column prop="headImgPic" label="微信头像"></el-table-column>
-                    <el-table-column prop="nickName" label="微信昵称"></el-table-column>
-
-                    <el-table-column prop="parentId" label="上级ID"></el-table-column>
-                    <el-table-column prop="parentAdminName" label="上级账户"></el-table-column>
-                    <el-table-column prop="parentRealName" label="上级姓名"></el-table-column>
-                    <el-table-column prop="isService" label="是否客服">
+                    <el-table-column prop="headImgPic" label="微信头像">
                         <template slot-scope="scope">
-                            {{ scope.row.isService == 1 ? "是" : "否" }}
+                            <el-image :src="scope.row.headImgPic"></el-image>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="alias" label="别名"></el-table-column>
                     <el-table-column prop="status" label="状态">
                         <template slot-scope="scope">
                             <el-tag size="medium">{{ scope.row.status == 1 ? "正常" : "冻结" }}</el-tag>
@@ -133,14 +138,38 @@
                 </el-table>
                 <template>
                     <el-button type="primary" style="margin: 10px;"
-                        @click="batchOperation({_type:'update',_suc: 'ZC'});">
+                        @click="batchOperation({_type:'update',_suc: 'ZC',_ur: 'change_maintainer_status'});">
                         更改为正常
                     </el-button>
                     <el-button type="primary" style="margin: 10px;"
-                        @click="batchOperation({_type:'update',_suc: 'DZ'});">
+                        @click="batchOperation({_type:'update',_suc: 'DZ', _ur: 'change_maintainer_status'});">
                         更改为冻结
                     </el-button>
                 </template>
+            </el-dialog>
+
+            <el-dialog title="数据详情" :visible.sync="SearchTableAndVisible" width="60%">
+                <el-form :data="SearchTableFormData">
+                    <el-form-item label="手机号码" prop="phone">
+                        <el-input v-model="SearchTableFormData.phone" class="w400"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="密码" prop="pwd">
+                        <el-input v-model="SearchTableFormData.pwd" class="w400" show-password></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="真实姓名" prop="realName">
+                        <el-input v-model="SearchTableFormData.realName" class="w400"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="微信ID" prop="weChatId">
+                        <el-input v-model="SearchTableFormData.weChatId" class="w400"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="别名" prop="alias">
+                        <el-input v-model="SearchTableFormData.alias" class="w400"></el-input>
+                    </el-form-item>
+                </el-form>
             </el-dialog>
 
         </el-container>

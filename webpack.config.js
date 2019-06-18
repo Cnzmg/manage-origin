@@ -31,10 +31,11 @@ module.exports = {
     resolve:{
         modules:[path.resolve('node_modules')],
         alias:{
-            vue: './vue/dist/vue.js',
+            // vue: './vue/dist/vue.js',
             // mainFiedlds: ['style', 'main'],
             // mainFiles: [],
             // extensions: ['.js','.css','.json']
+            // china: './'
         } 
     },
     plugins: [
@@ -107,6 +108,16 @@ module.exports = {
             },
             hash: true,
             chunks: ['config','list']
+        }),
+        new HtmlWebpackPlugin({  //machineter
+            template: './src/views/page/machineter.html',
+            filename: '../views/machineter.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','crud']
         }),
         new MiniCssExtractPlugin({
             template: './src/public/stylesheets/base.min.css',

@@ -131,11 +131,11 @@
                 </el-table>
                 <template>
                     <el-button type="primary" style="margin: 10px;"
-                        @click="batchOperation({_type:'update',_suc: 'ZC'});">
+                        @click="batchOperation({_type:'update',_suc: 'ZC', _ur: 'change_admin_status'});">
                         更改为正常
                     </el-button>
                     <el-button type="primary" style="margin: 10px;"
-                        @click="batchOperation({_type:'update',_suc: 'DZ'});">
+                        @click="batchOperation({_type:'update',_suc: 'DZ', _ur: 'change_admin_status'});">
                         更改为冻结
                     </el-button>
                 </template>
