@@ -78,7 +78,11 @@
                             {{ genders.row.gender == +true ? '男' : '女' }}
                         </template>
                     </el-table-column>
-                    <el-table-column prop="level" label="星级"></el-table-column>
+                    <el-table-column prop="level" label="星级">
+                        <template slot-scope="scope">
+                            <el-rate :value="scope.row.level"></el-rate>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="integral" label="积分"></el-table-column>
                     <el-table-column prop="province" label="省/市/区"></el-table-column>
                     <el-table-column prop="royaltyRate" label="分润点"></el-table-column>

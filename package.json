@@ -4,8 +4,9 @@
   "description": "",
   "main": "config.js",
   "dependencies": {
-    "webpack-cli": "^3.3.4",
-    "webpack": "^4.34.0"
+    "axios": "^0.19.0",
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
