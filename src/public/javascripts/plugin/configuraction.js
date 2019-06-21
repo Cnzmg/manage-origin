@@ -46,9 +46,13 @@ ym.init = {
 			sessionStorage.getItem('token') != null ? xml.setRequestHeader('Authorization', JSON.parse(sessionStorage.getItem('token')).secret) : null;
 			xml.send(null);
 		}
+		
 		xml.onreadystatechange = function(){
 			if(xml.readyState == 4 && xml.status == 200){
-				let code = xml.responseText.replace(/-1|"-1"/g, '\"无\"');
+				let code = xml.responseText, _ = ent.uri.substr(ent.uri.lastIndexOf('/') + 1);
+				if(_ != "maintainer_data_detail" && _ != "admin_log_list" && _ != "sys_part_classify_list"){ // 区别不转换 无
+					code = code.replace(/-1|"-1"/g, '\"无\"');
+				}
 				ent.done(JSON.parse(code));
 			}
 		}

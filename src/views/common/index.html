@@ -19,17 +19,17 @@
             <el-header class="menu-header">
                 <a class="menu" title="菜单"></a>
                 <div class="header-img">
-                    <img class="rl" src="/plugin/-/a125a2e4faa11b09c0e3149c6704e46d.jpg" alt="头像管理" />
-                    <span class="header-title">Dream come true </span>
+                    <img class="rl" src="/manage-origin/src/dist/images/9989b75255b2a343ab091b45bfa4416a.png" alt="头像管理" />
+                    <span class="header-title">Coffee RapidRepair</span>
                 </div>
                 <div class="menu-right rg">
-                    <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
+                    <!-- <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
                         <el-checkbox id="remember">无缓存模式</el-checkbox>
-                    </el-col>
+                    </el-col> -->
                     <div class="goback rg">
                         <!-- <a href="../../app.htm">退出</a> -->
                         <template>
-                                <a @click="goback()" style="cursor: pointer">退出</a>
+                                <a @click="goback()" style="cursor: pointer">退出登陆</a>
                         </template>
                     </div>
                 </div>
@@ -48,20 +48,22 @@
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="2">
-                            <template slot="title"><i class="el-icon-menu"></i>师傅模块</template>
+                            <template slot="title"><i class="el-icon-menu"></i>师傅管理</template>
                             <el-menu-item-group>
                                 <template slot="title">师傅信息</template>
-                                <el-menu-item index="2-2" v-on:click="Href({uri:'../machineterlist.htm',title:'师傅列表'})" >师傅列表</el-menu-item>
+                                <el-menu-item index="2-1" v-on:click="Href({uri:'../machineterlist.htm',title:'师傅列表'})" >师傅列表</el-menu-item>
+                                <el-menu-item index="2-2" v-on:click="Href({uri:'../machinelog.htm',title:'维修日志'})" >维修日志</el-menu-item>
+                                <el-menu-item index="2-3" v-on:click="Href({uri:'../machinerecord.htm',title:'维修记录'})" >维修记录</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="3">
-                            <template slot="title"><i class="el-icon-setting"></i>订单管理</template>
+                            <template slot="title"><i class="el-icon-setting"></i>商城管理</template>
                             <el-menu-item-group>
-                                <template slot="title">订单信息</template>
-                                <el-menu-item index="3-1" v-on:click="Href({uri:'../page/chart.html',action:4,name:'订单列表'})" >订单列表</el-menu-item>
+                                <template slot="title">零件信息</template>
+                                <el-menu-item index="3-1" v-on:click="Href({uri:'../partclassification.htm',title:'零件分类'})" >零件分类</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
-                        <el-submenu index="4">
+                        <!-- <el-submenu index="4">
                             <template slot="title"><i class="el-icon-setting"></i>附加费管理</template>
                             <el-menu-item-group>
                                 <template slot="title">附加费信息</template>
@@ -88,7 +90,7 @@
                                 <template slot="title">统计信息</template>
                                 <el-menu-item index="4-1" v-on:click="Href({uri:'../page/chart.html',action:6,name:'统计列表'})" >统计列表</el-menu-item>
                             </el-menu-item-group>
-                        </el-submenu>
+                        </el-submenu> -->
                     </el-menu>
                 </el-aside>
             </div>

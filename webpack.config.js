@@ -119,6 +119,36 @@ module.exports = {
             hash: true,
             chunks: ['config','crud']
         }),
+        new HtmlWebpackPlugin({  //machinelog
+            template: './src/views/page/machinelog.html',
+            filename: '../views/machinelog.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','list']
+        }),
+        new HtmlWebpackPlugin({  //machinerecord
+            template: './src/views/page/machinerecord.html',
+            filename: '../views/machinerecord.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','list']
+        }),
+        new HtmlWebpackPlugin({  //partclassification
+            template: './src/views/page/partclassification.html',
+            filename: '../views/partclassification.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','list']
+        }),
         new MiniCssExtractPlugin({
             template: './src/public/stylesheets/base.min.css',
             filename: '../stylesheets/[name]_23_aKvs-b8bW2Vg3fwHozO.css'

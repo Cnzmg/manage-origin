@@ -9,7 +9,7 @@ const [
         parent.document.getElementById('tagHref').getAttribute('src').replace('..', '/manage').split('?')[0],
         document.getElementById('container').getAttribute('data-uri'),
     ];
-const _data = {
+var _data = {
 
 };
 new Vue({
@@ -34,7 +34,11 @@ new Vue({
             InputAndVisible: false, //列表操作
             formData: {
                 machineType: 1,
-                name: ''
+                name: '',
+                classifyName: '',
+                parentId: '',
+                sort: '',
+                remark: ''
             },
             TableAndVisible: false,
             TableFormData: [],
@@ -45,7 +49,23 @@ new Vue({
             productId: [],
             ids: [],
             SearchTableAndVisible: false,
-            SearchTableFormData: []
+            SearchTableFormData: {
+                realName: '',
+                workCount: '',
+                auditCount: '',
+                indexCount: '',
+                income: '',
+                loginTime: '',
+                loginIp: '',
+                registerIp: '',
+                classifyName: '',  //零件
+                parentId: '',
+                parentName: '',
+                sort: '',
+                level: '',
+                remark: '',
+                id: ''
+            }
         }
     },
     created: function () {
@@ -92,8 +112,8 @@ new Vue({
                     _data['endDate'] = ym.init.getDateTime(arg[4][0]);
                 }
             }();
-            if (uri == 'manage_prodcut_list_list') _data['type'] = 1;  //临时处理存在此接口存在type 数值问题
-            if (uri == 'manage_machine_version') _data['type'] = 1;  //临时处理存在此接口存在type 数值问题
+            if (uri == 'sys_part_classify_list') _data['hasPart'] = 1;  //hasPart 数值问题
+            if (uri == 'manage_machine_version') _data['type'] = 1;  //临时处理存在此接口存在type 数值问题 
             if (uri == 'find_machine_advertisement_list') _data['type'] = 1;
             if (uri == 'manage_advertisement_list_list') _data['type'] = 1;
             if (uri == 'client_user_list') _data['type'] = 1;
@@ -165,61 +185,86 @@ new Vue({
                                     })
                                 }
                                 break;
-                            case `find_product_list`:
-                                for (let i = 0; i < res.productShowList.length; i++) {
+                            case `maintainer_log_list`:  //维修日志
+                                for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
-                                        productId: res.productShowList[i].productId,
-                                        productName: res.productShowList[i].productName,
-                                        productPrice: res.productShowList[i].productPrice,
-                                        productPicurl: res.productShowList[i].productPicurl,
-                                        machineType: res.productShowList[i].machineType,
-
-                                        formulaName: res.productShowList[i].formulaName,
-                                        bunkerNumber: res.productShowList[i].bunkerNumber,
-                                        createTime: res.productShowList[i].createTime,
-                                        productRank: res.productShowList[i].productRank,
-                                        productComment: res.productShowList[i].productComment
+                                        id: res.data.list[i].id,
+                                        maintainerId: res.data.list[i].maintainerId,
+                                        realName: res.data.list[i].realName,
+                                        alias: res.data.list[i].alias,
+                                        workId: res.data.list[i].workId,
+                                        logType: res.data.list[i].logType,
+                                        gradeType: res.data.list[i].gradeType,
+                                        gradeChange: res.data.list[i].gradeChange,
+                                        createName: res.data.list[i].createName,
+                                        createTime: res.data.list[i].createTime,
+                                        centent: res.data.list[i].centent
                                     })
                                 }
                                 break;
-                            case `manage_prodcut_list_list`:
+                            case `manage_prodcut_list_list`:  //维修记录
                                 for (let i = 0; i < res.productListList.length; i++) {
                                     xml.push({
-                                        listId: res.productListList[i].listId,
-                                        listName: res.productListList[i].listName,
-                                        machineType: res.productListList[i].machineType
+                                        id: res.data.list[i].id,
+                                        maintainerId: res.data.list[i].maintainerId,
+                                        realName: res.data.list[i].realName,
+                                        alias: res.data.list[i].alias,
+                                        workId: res.data.list[i].workId,
+
+                                        model: res.data.list[i].model,
+                                        maintainContent: res.data.list[i].maintainContent,
+                                        indexFrontPic: res.data.list[i].indexFrontPic,
+                                        indexBehindPic: res.data.list[i].indexBehindPic,
+                                        createTime: res.data.list[i].createTime
                                     })
                                 }
                                 break;
-                            case `find_machine_list`:
-                                ym.init.XML({
-                                    method: 'POST',
-                                    uri: token._j.URLS.Development_Server_ + 'find_machine_number',
-                                    async: true,
-                                    xmldata: {
-                                        id: ym.init.COMPILESTR.decrypt(token.id),
-                                        token: ym.init.COMPILESTR.decrypt(token.asset),
-                                        url: u
-                                    },
-                                    done: function (res) {
-                                        it.tags['machineCount'] = res.machineCount;
-                                        it.tags['offLineNum'] = res.offLineNum;
-                                        it.tags['starvingNum'] = res.starvingNum;
-                                        it.tags['faultNum'] = res.faultNum;
-                                    }
-                                })
-                                for (let i = 0; i < res.machineShowList.length; i++) {
+                            case `sys_part_classify_list`:  //零件分类树
+                                for (let i = 0; i < res.data.length; i++) {   //暂时这样处理   后期优化
                                     xml.push({
-                                        machineNumber: res.machineShowList[i].machineNumber,
-                                        adminName: res.machineShowList[i].adminName,
-                                        machineAddrDesc: res.machineShowList[i].machineAddrDesc,
-                                        machineType: res.machineShowList[i].machineType,
-                                        machineSn: res.machineShowList[i].machineSn,
-                                        machineScenePicUrl: res.machineShowList[i].machineScenePicUrl,
-                                        wxacode: res.machineShowList[i].wxacode,
-                                        onlineStatus: res.machineShowList[i].onlineStatus,
-                                        failureStatus: res.machineShowList[i].failureStatus,
-                                        materialStatus: res.machineShowList[i].materialStatus
+                                        id: res.data[i].id,
+                                        name: res.data[i].name,
+                                        parentId: res.data[i].parentId,
+                                        parentName: res.data[i].parentName,
+                                        sort: res.data[i].sort,
+                                        type: res.data[i].type,
+                                        subCount: res.data[i].subCount,
+                                        createTime: res.data[i].createTime,
+                                        children: (() => {
+                                            let xx = [];
+                                            if(res.data[i].subList == null) return {}
+                                            for (let j = 0; j < res.data[i].subList.length; j++) {
+                                                xx.push({
+                                                    id: res.data[i].subList[j].id,
+                                                    name: res.data[i].subList[j].name,
+                                                    parentId: res.data[i].subList[j].parentId,
+                                                    parentName: res.data[i].subList[j].parentName,
+                                                    sort: res.data[i].subList[j].sort,
+                                                    type: res.data[i].subList[j].type,
+                                                    subCount: res.data[i].subList[j].subCount,
+                                                    createTime: res.data[i].subList[j].createTime,
+                                                    hasChildren: true,
+                                                    children: (() => {
+                                                        let xx = [];
+                                                        if(res.data[i].subList[j].subList == null) return []
+                                                        for (let x = 0; x < res.data[i].subList[j].subList.length; x++) {
+                                                            xx.push({
+                                                                id: res.data[i].subList[j].subList[x].id,
+                                                                name: res.data[i].subList[j].subList[x].name,
+                                                                parentId: res.data[i].subList[j].subList[x].parentId,
+                                                                parentName: res.data[i].subList[j].subList[x].parentName,
+                                                                sort: res.data[i].subList[j].subList[x].sort,
+                                                                type: res.data[i].subList[j].subList[x].type,
+                                                                subCount: res.data[i].subList[j].subList[x].subCount,
+                                                                createTime: res.data[i].subList[j].subList[x].createTime
+                                                            })
+                                                        }
+                                                        return xx;
+                                                    })()
+                                                })
+                                            }
+                                            return xx;
+                                        })()
                                     })
                                 }
                                 break;
@@ -677,13 +722,13 @@ new Vue({
                                             case 'maintainer_list':
                                                 _xml.push({
                                                     id: e.id,
-                                                    accounts:e.accounts,
-                                                    phone:e.phone,
-                                                    weChatId:e.weChatId,
-                                                    nickName:e.nickName,
-                                                    realName:e.realName,
-                                                    headImgPic:e.headImgPic,
-                                                    status:e.status
+                                                    accounts: e.accounts,
+                                                    phone: e.phone,
+                                                    weChatId: e.weChatId,
+                                                    nickName: e.nickName,
+                                                    realName: e.realName,
+                                                    headImgPic: e.headImgPic,
+                                                    status: e.status
                                                 })
                                                 break;
                                             default:
@@ -725,7 +770,7 @@ new Vue({
                     break;
             }
         },
-        search(e){  //查询维修数据
+        search(e) {  //查询维修数据 & 查询零件数据
             const it = this;
             _data['id'] = e.enitId.id
             ym.init.XML({
@@ -736,7 +781,27 @@ new Vue({
                 done: function (res) {
                     try {
                         ym.init.RegCode(token._j.successfull).test(res.state) ? (() => {
-                            
+                            switch (e.uri) {
+                                case 'sys_part_classify_detail':
+                                    it.SearchTableFormData.id = res.data.id;
+                                    it.SearchTableFormData.classifyName = res.data.classifyName;
+                                    it.SearchTableFormData.parentId = res.data.parentId;
+                                    it.SearchTableFormData.parentName = res.data.parentName;
+                                    it.SearchTableFormData.sort = res.data.sort;
+                                    it.SearchTableFormData.level = res.data.level;
+                                    it.SearchTableFormData.remark = res.data.remark;
+                                    break;
+                                default:
+                                    it.SearchTableFormData.realName = res.data.realName;
+                                    it.SearchTableFormData.workCount = res.data.realName;
+                                    it.SearchTableFormData.auditCount = res.data.auditCount;
+                                    it.SearchTableFormData.indexCount = res.data.indexCount;
+                                    it.SearchTableFormData.income = res.data.income;
+                                    it.SearchTableFormData.loginTime = res.data.loginTime;
+                                    it.SearchTableFormData.loginIp = res.data.loginIp;
+                                    it.SearchTableFormData.registerIp = res.data.registerIp;
+                                    break;
+                            }
                         })() : (() => {
                             throw "收集到错误：\n\n" + res.msg;
                         })();
@@ -745,6 +810,44 @@ new Vue({
                     }
                 }
             });
+        },
+        loadTree(tree, treeNode, resolve) {   //树结构表格
+            setTimeout(() => {
+                resolve(tree.children);
+            }, 500)
+        },
+        submitForm(e){  //列表添加/ 更新
+            const it = this;
+            _data = {};  //清空 data 
+            if(e.id){
+                _data['id'] = e.id
+            }
+            _data['classifyName'] = e.classifyName;
+            _data['parentId'] = e.parentId;
+            _data['sort'] = e.sort;
+            _data['remark'] = e.remark;
+            ym.init.XML({
+                method: 'POST',
+                uri: token._j.URLS.Development_Server_ + 'add_or_update_part_classify',
+                async: false,
+                xmldata: _data,
+                done: function (res) {
+                    try {
+                        ym.init.RegCode(token._j.successfull).test(res.state) ? (() => {
+                            it.ISuccessfull(res.msg);
+                            _data = {};  //清空 data 
+                            it.UpdateTableAndVisible = false;
+                            it.SearchTableAndVisible = false;
+                            it.list();
+                        })() : (() => {
+                            throw "收集到错误：\n\n" + res.msg;
+                        })();
+                    } catch (error) {
+                        it.IError(error);
+                    }
+                }
+            });
+
         }
     }
 });

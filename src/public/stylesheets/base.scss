@@ -186,7 +186,7 @@ div[vue-button-coffeeLogin]{
   cursor: pointer;
 }
 .header-img{
-  width: 200px;
+  width: 203px;
   margin: 0 auto;
   text-align: center;
   line-height: 40px;
@@ -197,7 +197,7 @@ div[vue-button-coffeeLogin]{
   font-size: 1rem;
 }
 .header-img img{
-  width: 22%;
+  width: 21%;
   margin-right: 10px;
 }
 .el-header{
@@ -253,6 +253,9 @@ div[vue-button-coffeeLogin]{
 }
 .tag ul li.tag_40b8ff{
   background: #fff100;
+}
+.tag-con-ul li  i{
+  display: none;
 }
 .icon_clone{
 	width: 1rem;
@@ -310,4 +313,7 @@ div[vue-button-coffeeLogin]{
   }
   .el-message{
 		top: 80px !important;
-	}
+  }
+  .el-rate{
+    height: auto;
+  }
