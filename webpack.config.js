@@ -149,6 +149,26 @@ module.exports = {
             hash: true,
             chunks: ['config','list']
         }),
+        new HtmlWebpackPlugin({  //spareparts
+            template: './src/views/page/spareparts.html',
+            filename: '../views/spareparts.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','list']
+        }),
+        new HtmlWebpackPlugin({  //sparepart
+            template: './src/views/page/sparepart.html',
+            filename: '../views/sparepart.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','crud']
+        }),
         new MiniCssExtractPlugin({
             template: './src/public/stylesheets/base.min.css',
             filename: '../stylesheets/[name]_23_aKvs-b8bW2Vg3fwHozO.css'

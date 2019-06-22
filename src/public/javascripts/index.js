@@ -222,4 +222,9 @@ function tag() {
     } catch (error) {
         alert(error);
     }
+    $('#tagList li').hover(function(){
+        jQuery(this).children('i').show(100);
+    },function() {
+        jQuery(this).children('i').hide(100);
+    })
 }

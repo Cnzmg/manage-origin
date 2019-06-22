@@ -148,7 +148,28 @@ new Vue({
                 identity: '',
                 identityFront: '',
                 identityBehind: '',
-                level: 1
+                level: 1,
+                partNumber: '',
+                partName: '',
+                partPic: '',
+                modules: '',
+                brand: '',
+                supplier: '',
+                inventoryLocation: '',
+                inventoryCount: '',
+                procurementCycle: '',
+                inventorySave: '',
+                deliveryOutput: '',
+                inventoryInput: '',
+                inventoryInputPrice: '',
+                inventoryPrice: '',
+                inventoryTotal: '',
+                clientPrice: '',
+                classifyId: '',
+                classifyName: '',
+                sort: '',
+                remark: '',
+                status: 1,
             },
             rules: {
                 adminName: [
@@ -178,7 +199,8 @@ new Vue({
             imageList: {
                 picHeaders: [],
                 IDFor: [],
-                IDBeh: []
+                IDBeh: [],
+                partPic: []
             },
             disAdminName: false,
             sect: {
@@ -302,6 +324,9 @@ new Vue({
                 case 'add_or_update_maintainer':
                     _uri = 'sys_maintainer_detail';
                     break;
+                case 'add_or_update_part_info':
+                    _uri = 'sys_part_info_detail'
+                    break;
                 default:
                     break;
             }
@@ -347,9 +372,45 @@ new Vue({
                                     it.ruleForm.level = res.data.level;  // 星级
                                     it.ruleForm.country = res.data.country;  // 国家
                                     it.ruleForm.royaltyRate = res.data.royaltyRate;  // 分润
-                                    
+
                                     // it.ruleForm.province.push(TextToCode[res.data.province], TextToCode[res.data.city], TextToCode[res.data.district]); // 省市区
-                                    it.ruleForm.province.push([TextToCode[res.data.province],TextToCode[res.data.city],TextToCode[res.data.district]]);  //待解决
+                                    it.ruleForm.province.push([TextToCode[res.data.province], TextToCode[res.data.city], TextToCode[res.data.district]]);  //待解决
+
+                                } catch (error) {
+                                    it.IError(error);
+                                    throw error;
+                                }
+                                break;
+                            case 'add_or_update_part_info':
+                                try {
+                                    it.ruleForm.partNumber = res.data.partNumber;  //账号
+                                    it.ruleForm.partName = res.data.partName;  //手机号码
+
+                                    it.imageList.partPic.push({ name: 'partPic', url: res.data.partPic }); //头像
+
+                                    it.ruleForm.partPic = res.data.partPic; //头像
+                                    it.ruleForm.modules = res.data.modules; //身份证
+
+                                    it.ruleForm.brand = res.data.brand;  //真名
+                                    it.ruleForm.supplier = res.data.supplier;  //别名
+                                    it.ruleForm.inventoryLocation = res.data.inventoryLocation == '无' ? '' : res.data.inventoryLocation;  //微信ID
+                                    it.ruleForm.inventoryCount = res.data.inventoryCount;  //昵称
+
+                                    it.ruleForm.procurementCycle = res.data.procurementCycle;  //性别
+                                    it.ruleForm.inventorySave = res.data.inventorySave;  //年龄
+                                    it.ruleForm.deliveryOutput = res.data.deliveryOutput;  //身份证号码
+                                    it.ruleForm.inventoryInput = res.data.inventoryInput;  // 星级
+                                    it.ruleForm.inventoryInputPrice = res.data.inventoryInputPrice;  // 国家
+                                    it.ruleForm.inventoryPrice = res.data.inventoryPrice;  // 分润
+
+                                    it.ruleForm.inventoryTotal = res.data.inventoryTotal;  //性别
+                                    it.ruleForm.clientPrice = res.data.clientPrice;  //年龄
+                                    it.ruleForm.classifyId = res.data.classifyId;  //身份证号码
+                                    it.ruleForm.classifyName = res.data.classifyName;  // 星级
+                                    it.ruleForm.sort = res.data.sort;  // 分润
+
+                                    it.ruleForm.remark = res.data.remark;  //年龄
+                                    it.ruleForm.status = res.data.status;  //身份证号码
 
                                 } catch (error) {
                                     it.IError(error);
@@ -402,6 +463,7 @@ new Vue({
         },
         filePicSuccess(e) {  //头像文件上传成功
             this.ruleForm.headImgPic = e.data.path;
+            this.ruleForm.partPic = e.data.path;
         },
         fileIDForSuccess(e) {  //身份证正面文件上传成功
             this.ruleForm.identityFront = e.data.path;
@@ -423,7 +485,7 @@ new Vue({
                     _data['realName'] = formName.realName || '';
                     _data['alias'] = formName.alias || '';
                     _data['headImgPic'] = formName.headImgPic || '';
-                    
+
                     _data['gender'] = formName.gender || '';
                     _data['age'] = formName.age || '';
                     _data['identity'] = formName.identity || '';
@@ -434,10 +496,34 @@ new Vue({
                     _data['province'] = CodeToText[this.ruleForm.province[0]] || '';
                     _data['city'] = CodeToText[this.ruleForm.province[1]] || '';
                     _data['district'] = CodeToText[this.ruleForm.province[2]] || '';
-                    
-                    
+
+
                     _data['country'] = formName.country || '';
                     _data['royaltyRate'] = formName.royaltyRate || 0;
+                    break;
+                case 'add_or_update_part_info':
+                    _data['partNumber'] = formName.partNumber || '';
+                    _data['partName'] = formName.partName || '';
+                    _data['modules'] = formName.modules || '';
+                    _data['brand'] = formName.brand || '';
+                    _data['supplier'] = formName.supplier || '';
+                    _data['inventoryLocation'] = formName.inventoryLocation || '';
+                    _data['inventoryCount'] = formName.inventoryCount || '';
+
+                    _data['procurementCycle'] = formName.procurementCycle || '';
+                    _data['inventorySave'] = formName.inventorySave || '';
+                    _data['deliveryOutput'] = formName.deliveryOutput || '';
+                    _data['inventoryInput'] = formName.inventoryInput || '';
+                    _data['inventoryInputPrice'] = formName.inventoryInputPrice || '';
+                    _data['inventoryPrice'] = formName.inventoryPrice;
+
+                    _data['inventoryTotal'] = formName.inventoryTotal || '';
+                    _data['clientPrice'] = formName.clientPrice || 0;
+                    _data['classifyId'] = formName.classifyId || '';
+                    _data['partPic'] = formName.partPic || '';
+                    _data['sort'] = formName.sort || '';
+                    _data['remark'] = formName.remark || '';
+                    _data['status'] = formName.status;
                     break;
                 default:
                     _data['adminName'] = formName.adminName || '';

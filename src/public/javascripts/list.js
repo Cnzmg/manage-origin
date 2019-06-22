@@ -268,16 +268,21 @@ new Vue({
                                     })
                                 }
                                 break;
-                            case `manage_machine_version`:
-                                for (let i = 0; i < res.machineUpdateList.length; i++) {
+                            case `sys_part_info_list`:  //零件列表
+                                for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
-                                        mUpdateId: res.machineUpdateList[i].mUpdateId,
-                                        mUpdateVersion: res.machineUpdateList[i].mUpdateVersion,
-                                        versionCode: res.machineUpdateList[i].versionCode,
-                                        mUpdateTime: res.machineUpdateList[i].mUpdateTime,
-                                        mUpdateDes: res.machineUpdateList[i].mUpdateDes,
-                                        machineType: res.machineUpdateList[i].machineType,
-                                        mUpdateUrl: res.machineUpdateList[i].mUpdateUrl
+                                        id: res.data.list[i].id,
+                                        partNumber: res.data.list[i].partNumber,
+                                        partName: res.data.list[i].partName,
+                                        inventoryCount: res.data.list[i].inventoryCount,
+                                        procurementCycle: res.data.list[i].procurementCycle,
+                                        inventorySave: res.data.list[i].inventorySave,
+                                        deliveryOutput: res.data.list[i].deliveryOutput,
+                                        inventoryInput: res.data.list[i].inventoryInput,
+                                        classifyId: res.data.list[i].classifyId,
+                                        classifyName: res.data.list[i].classifyName,
+                                        sort: res.data.list[i].sort,
+                                        status: res.data.list[i].status
                                     })
                                 }
                                 break;
