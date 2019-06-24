@@ -23,9 +23,9 @@ new Vue({
             pageSize: 20,
             total: 0,
             page: 1,
-            select: '',
-            searchVal: '',
-            searchName: '',
+            select: '', // 下拉初始化
+            searchVal: '',  //查询数值
+            searchName: '',  // 查询名称
             selects: '',
             tags: {},   //待定
             selectFil: '',
@@ -286,21 +286,17 @@ new Vue({
                                     })
                                 }
                                 break;
-                            case `find_machine_poi_list`:
-                                for (let i = 0; i < res.poiList.length; i++) {
+                            case `sys_part_audit_list`:   //查看零件零件申请列表
+                                for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
-                                        poiId: res.poiList[i].poiId,
-                                        longitude: res.poiList[i].longitude,
-                                        latitude: res.poiList[i].latitude,
-                                        addr: res.poiList[i].addr,
-                                        mapMarkerIcon: res.poiList[i].mapMarkerIcon,
-                                        province: res.poiList[i].province,
-                                        city: res.poiList[i].city,
-                                        district: res.poiList[i].district,
-                                        machineUrl: res.poiList[i].machineUrl,
-                                        hide: res.poiList[i].hide,
-                                        machineCount: res.poiList[i].machineCount,
-                                        numberList: res.poiList[i].numberList
+                                        id: res.data.list[i].id,
+                                        workId: res.data.list[i].workId,
+                                        maintainerId: res.data.list[i].maintainerId,
+                                        realName: res.data.list[i].realName,
+                                        total: res.data.list[i].total,
+                                        applyCount: res.data.list[i].applyCount,
+                                        createTime: res.data.list[i].createTime,
+                                        status: res.data.list[i].status
                                     })
                                 }
                                 break;

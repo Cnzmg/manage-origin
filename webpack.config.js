@@ -169,6 +169,16 @@ module.exports = {
             hash: true,
             chunks: ['config','crud']
         }),
+        new HtmlWebpackPlugin({  //partsapplication
+            template: './src/views/page/partsapplication.html',
+            filename: '../views/partsapplication.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config','list']
+        }),
         new MiniCssExtractPlugin({
             template: './src/public/stylesheets/base.min.css',
             filename: '../stylesheets/[name]_23_aKvs-b8bW2Vg3fwHozO.css'

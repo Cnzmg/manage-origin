@@ -1,9 +1,19 @@
+import {vue} from "vue"
+export default {
+    data: () => ({
+        show2: true
+    }),
+    created(){
+        console.log(123);
+    }
+}
 new Vue({
     el: '#app',
     data: () => {
         return {
             loading: false,
             imageShow: false,
+            menu: true
         }
     },
     created: function () {
@@ -143,11 +153,7 @@ new Vue({
                 xmldata: {},
                 done: function (res) {
                     try {
-                        ym.init.RegCode(200).test(res.state) ? (() => {
-                            location.href = '../../app.htm?[hash]:ix';
-                        })() : (() => {
-                            throw "收集到错误：\n\n" + res.msg;
-                        })();
+                        location.href = '../../app.htm?[hash]:ix';
                     } catch (error) {
                         it.Error(error);
                     }
@@ -222,9 +228,9 @@ function tag() {
     } catch (error) {
         alert(error);
     }
-    $('#tagList li').hover(function(){
+    $('#tagList li').hover(function () {
         jQuery(this).children('i').show(100);
-    },function() {
+    }, function () {
         jQuery(this).children('i').hide(100);
     })
 }
