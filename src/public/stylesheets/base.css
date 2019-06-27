@@ -352,3 +352,7 @@ div[vue-button-coffeeLogin] {
 .el-rate {
   height: auto;
 }
+
+.el-table__row td:nth-last-child(1) .cell {
+  text-align: right;
+}

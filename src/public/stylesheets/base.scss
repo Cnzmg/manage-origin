@@ -312,8 +312,11 @@ div[vue-button-coffeeLogin]{
 		margin: 10px 0;
   }
   .el-message{
-		top: 80px !important;
+		top: 80px !important; 
   }
   .el-rate{
     height: auto;
   }
+  .el-table__row td:nth-last-child(1) .cell{
+		text-align: right;
+	} 
