@@ -23,16 +23,17 @@
                         alt="头像管理" />
                     <span class="header-title">Coffee RapidRepair</span>
                 </div>
-                <div class="menu-right rg">
+                <div class="menu-right">
                     <!-- <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
                         <el-checkbox id="remember">无缓存模式</el-checkbox>
                     </el-col> -->
-                    <div class="goback rg">
-                        <!-- <a href="../../app.htm">退出</a> -->
-                        <template>
-                            <a @click="goback()" style="cursor: pointer">退出登陆</a>
-                        </template>
-                    </div>
+                    <el-menu class="el-menu-demo" mode="horizontal">
+                        <el-submenu index="1">
+                            <template slot="title"><i class="el-icon-user"></i>{{ adminName }}</template>
+                            <el-menu-item index="1-1" @click="IError('该功能正在测试中')">更改主题</el-menu-item>
+                            <el-menu-item index="1-2" @click="goback()">退出登陆</el-menu-item>
+                        </el-submenu>
+                    </el-menu>
                 </div>
             </el-header>
         </el-container>
@@ -62,9 +63,12 @@
                                             v-on:click="Href({uri:'../machineterlist.htm',title:'师傅列表'})">师傅列表
                                         </el-menu-item>
                                         <el-menu-item index="2-2"
+                                            v-on:click="Href({uri:'../partsapplication.htm',title:'零件申请'})">
+                                            零件申请</el-menu-item>
+                                        <el-menu-item index="2-3"
                                             v-on:click="Href({uri:'../machinelog.htm',title:'维修日志'})">
                                             维修日志</el-menu-item>
-                                        <el-menu-item index="2-3"
+                                        <el-menu-item index="2-4"
                                             v-on:click="Href({uri:'../machinerecord.htm',title:'维修记录'})">维修记录
                                         </el-menu-item>
                                     </el-menu-item-group>
@@ -78,9 +82,6 @@
                                         </el-menu-item>
                                         <el-menu-item index="3-2"
                                             v-on:click="Href({uri:'../spareparts.htm',title:'零件列表'})">
-                                            零件列表</el-menu-item>
-                                        <el-menu-item index="3-3"
-                                            v-on:click="Href({uri:'../partsapplication.htm',title:'零件申请'})">
                                             零件列表</el-menu-item>
                                     </el-menu-item-group>
                                 </el-submenu>

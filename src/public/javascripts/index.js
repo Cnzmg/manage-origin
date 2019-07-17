@@ -13,21 +13,11 @@ new Vue({
         return {
             loading: false,
             imageShow: false,
-            menu: true
+            menu: true,
+            adminName: ym.init.COMPILESTR.decrypt(sessionStorage.getItem('_c'))
         }
     },
     created: function () {
-        // $('body').on('click', '.template-skins > a', function (e) {
-        //     e.preventDefault();
-        //     var skin = $(this).data('skin');
-        //     $('body').attr('id', skin);
-        //     localStorage.setItem("skin", JSON.stringify({ skin: skin }));
-        // });
-        //if body not bg
-        // if (JSON.parse(localStorage.getItem("skin"))) {
-        //     $('body').attr('id', JSON.parse(localStorage.getItem("skin")).skin);
-        // };
-
         localStorage.getItem('uri') ? JSON.parse("[" + localStorage.getItem('uri') + "]").forEach((els, index) => {
             console.log('Testing：\n\n' + JSON.stringify(els.uri.split('?')[1]));
         }) : null;
@@ -37,87 +27,9 @@ new Vue({
                 location.href = '../../app.htm?hash:err(o012)';
             }, 1000);
         };
-
-        //tag 权限列表
-        // let tag = JSON.parse(sessionStorage.getItem('tag')), _tag = '', icons = [
-        //     'el-icon-s-cooperation',
-        //     'el-icon-s-order',
-        //     'el-icon-video-camera-solid',
-        //     'el-icon-s-data',
-        //     'el-icon-user-solid',
-        //     'el-icon-s-finance',
-        //     'el-icon-s-grid',
-        //     'el-icon-s-tools',
-        //     'el-icon-s-unfold'
-        // ], _lists = {
-        //     _admin: [
-        //         'tables',
-        //         'u_Journal'
-        //     ],
-        //     _system: [
-        //         'formulaList',
-        //         'productList',
-        //         'detailedList',
-        //         'equipmentList',
-        //         'equipmentLongUpdate',
-        //         'smallLocationConfig',
-        //         'advertisementRootList',
-        //         'adRootDetailedList',
-        //         'chartsActive',
-        //         'systemUserList',
-        //         'systemUserLvList',
-        //         'feedbackList',
-        //         'systemUserLvSearch',
-        //         'couponList',
-        //         'orderList',
-        //         'refundOrder',
-        //         'orderEverDayList',
-        //         'financialManagement',
-        //         'RepairPersonnelList',
-        //         'materialLog'
-        //     ],
-        //     _shop: [
-        //         'RepairPersonnelList',
-        //         'equipmentList',
-        //         'equipmentList',
-        //         'maintenanceLog',
-        //         'smallLocationConfig',
-        //         'information',
-        //         'chartsFinance',
-        //         'orderList',
-        //         'orderEverDayList'
-        //     ]
-        // }, num = 0;
-        // for (let i = 0; i < tag.length; i++) {
-        //     _tag += `<el-submenu index="${i + 1}">
-        //                 <template slot="title">
-        //                     <i class="${icons[i]}"></i>
-        //                     <span>${tag[i].permissionName}</span>
-        //                 </template>
-        //                 <el-menu-item-group>`;
-        //     for (let j = 0; j < tag[i].pageInfoList.length; j++) {
-        //         // _tag += `<el-menu-item @click=Href({'uri':'${tag[i].pageInfoList[j].pageUrl}','title':'${tag[i].pageInfoList[j].pageName}'}) index="${i + 1}-${j}">${tag[i].pageInfoList[j].pageName}</el-menu-item>`;
-        //         switch (tag.length) {  //启用本地路由
-        //             case 9:
-        //                 _tag += `<el-menu-item u="${_lists._system[num]}" @click=Href({'uri':'../${_lists._system[num]}.html?hash:iforx${parseInt(13 * num / j + 2)}','title':'${tag[i].pageInfoList[j].pageName}'}) index="${i + 1}-${j}">${tag[i].pageInfoList[j].pageName}</el-menu-item>`;
-        //                 break;
-        //             case 2:
-        //                 _tag += `<el-menu-item @click=Href({'uri':'../${_lists._admin[num]}.html?hash:iforx${parseInt(13 * num / j + 2)}','title':'${tag[i].pageInfoList[j].pageName}'}) index="${i + 1}-${j}">${tag[i].pageInfoList[j].pageName}</el-menu-item>`;
-        //                 break;
-        //             default:
-        //                 _tag += `<el-menu-item @click=Href({'uri':'../${_lists._shop[num]}.html?hash:iforx${parseInt(13 * num / j + 2)}','title':'${tag[i].pageInfoList[j].pageName}'}) index="${i + 1}-${j}">${tag[i].pageInfoList[j].pageName}</el-menu-item>`;
-        //                 break;
-        //         };
-        //         num++;
-        //     };
-        //     _tag += `</el-menu-item-group>
-        //         </el-submenu>`;
-        // };
-        // jQuery('.menu').html(_tag);
-
     },
     methods: {
-        Error(err) {
+        IError(err) {
             this.$message.error('错了哦，' + err);
         },
         Href(e) {
@@ -155,7 +67,7 @@ new Vue({
                     try {
                         location.href = '../../app.htm?[hash]:ix';
                     } catch (error) {
-                        it.Error(error);
+                        it.IError(error);
                     }
                 }
             });
@@ -233,4 +145,8 @@ function tag() {
     }, function () {
         jQuery(this).children('i').hide(100);
     })
+
+    document.getElementById('tagList').ondrag = function(params){
+        console.log(params)
+    }
 }

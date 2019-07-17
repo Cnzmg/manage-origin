@@ -95,6 +95,7 @@ new Vue({
                         };
                         localStorage.setItem('uri', JSON.stringify({ uri: '../index.htm?hash:ix', title: '首页' }));
                         sessionStorage.setItem("token", JSON.stringify({ secret: _e.data.secret }));
+                        sessionStorage.setItem('_c', ym.init.COMPILESTR.encryption(e.name))
                         setTimeout(() => {
                             location.href = "./views/common/index.htm?hash:" + ym.init.GETRANDOM(8);
                         }, 500);

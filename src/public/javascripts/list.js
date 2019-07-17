@@ -83,7 +83,7 @@ new Vue({
                 this.loading = false;
             }, 1000);
             this.$message({
-                message: 'ok 了哦,' + e,
+                message: '成功了哦,' + e,
                 type: 'success'
             });
         },
@@ -127,6 +127,7 @@ new Vue({
                 async: false,
                 xmldata: _data,
                 done: function (res) {
+                    res.state = 200;
                     ym.init.RegCode('200').test(res.state) ? (() => {
                         switch (uri) {
                             case `admin_list`:  //后台管理用户
@@ -287,6 +288,10 @@ new Vue({
                                 }
                                 break;
                             case `sys_part_audit_list`:   //查看零件零件申请列表
+                                let arr = JSON.stringify([{id: Math.floor(Math.random() * 10),workId: 1,'maintainerId': 2,'realName': 2,'total': 2,'applyCount': 2,'createTime': 2,'status': 2},{id: Math.floor(Math.random() * 10),workId: 1,'maintainerId': 2,'realName': 2,'total': 2,'applyCount': 2,'createTime': 2,'status': 2}]);
+                                res.data = {}
+                                res.data['list'] = JSON.parse(arr);  //假数据
+
                                 for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
                                         id: res.data.list[i].id,

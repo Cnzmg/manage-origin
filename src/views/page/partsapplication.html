@@ -28,10 +28,8 @@
                         <el-select v-model="select" slot="prepend" placeholder="请选择">
                             <el-option label="不限" value="status:"></el-option>
                             <el-option label="申请中" value="status:1"></el-option>
-                            <el-option label="已驳回" value="status:0"></el-option>
                             <el-option label="已批准" value="status:2"></el-option>
-                            <el-option label="已发货" value="status:3"></el-option>
-                            <el-option label="已完成" value="status:4"></el-option>
+                            <el-option label="已驳回" value="status:3"></el-option>
                         </el-select>
                     </div>
 
@@ -63,12 +61,12 @@
                     <el-table-column fixed="right" label="操作">
                         <template slot-scope="scope">
                             <el-button type="text" size="small"
-                                @click="search({uri:'maintainer_data_detail', enitId: scope.row});SearchTableAndVisible = true">
+                                @click="search({uri:'sys_part_audit_detail', enitId: scope.row});SearchTableAndVisible = true">
                                 查看
                             </el-button>
                             <el-button type="text" size="small"
-                                @click="Idelete({uri:'deleted_maintainer',_id:scope.row.id})">
-                                更改
+                                @click="Idelete({uri:' approve_part_audit',_id:scope.row.id})">
+                                审核
                             </el-button>
                         </template>
                     </el-table-column>

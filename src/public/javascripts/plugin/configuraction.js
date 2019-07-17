@@ -50,9 +50,9 @@ ym.init = {
 		xml.onreadystatechange = function(){
 			if(xml.readyState == 4 && xml.status == 200){
 				let code = xml.responseText, _ = ent.uri.substr(ent.uri.lastIndexOf('/') + 1);
-				if(_ != "maintainer_data_detail" && _ != "admin_log_list" && _ != "sys_part_classify_list"){ // 区别不转换 无
-					code = code.replace(/-1|"-1"/g, '\"无\"');
-				}
+				// if(_ != "maintainer_data_detail" && _ != "admin_log_list" && _ != "sys_part_classify_list"){ // 区别不转换 无
+				// 	code = code.replace(/-1|"-1"^[d/-1/d]/g, '\"无\"');
+				// }
 				ent.done(JSON.parse(code));
 			}
 		}

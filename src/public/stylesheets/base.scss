@@ -204,7 +204,9 @@ div[vue-button-coffeeLogin]{
   background: #333;
 }
 .menu-right{
-  line-height: 40px;
+  position: absolute;
+  top: 0;
+  right:0;
 }
 .goback{
   margin:0 20px;
