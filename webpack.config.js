@@ -22,21 +22,21 @@ module.exports = {
         filename: '[name]._23_aKvs-b8bW2Vg3fwHozO.js',
         path: path.resolve(__dirname, './src/dist/javascripts/')
     },
-    watch:true,
-    watchOptions:{
+    watch: true,
+    watchOptions: {
         poll: 1000,
-        aggregateTimeout:1000,
+        aggregateTimeout: 1000,
         ignored: /node_modules/
     },
-    resolve:{
-        modules:[path.resolve('node_modules')],
-        alias:{
+    resolve: {
+        modules: [path.resolve('node_modules')],
+        alias: {
             // vue: './vue/dist/vue.js',
             // mainFiedlds: ['style', 'main'],
             // mainFiles: [],
             // extensions: ['.js','.css','.json']
             // china: './'
-        } 
+        }
     },
     plugins: [
         new HtmlWebpackPlugin({  //login
@@ -47,7 +47,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','login']
+            chunks: ['config', 'login']
         }),
         new HtmlWebpackPlugin({  //common index
             template: './src/views/common/index.html',
@@ -57,7 +57,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','index']
+            chunks: ['config', 'index']
         }),
         new HtmlWebpackPlugin({  //index
             template: './src/views/page/index.html',
@@ -77,7 +77,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','list']
+            chunks: ['config', 'list']
         }),
         new HtmlWebpackPlugin({  //management
             template: './src/views/page/management.html',
@@ -87,7 +87,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','crud']
+            chunks: ['config', 'crud']
         }),
         new HtmlWebpackPlugin({  //log
             template: './src/views/page/log.html',
@@ -97,7 +97,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','list']
+            chunks: ['config', 'list']
         }),
         new HtmlWebpackPlugin({  //machineterlist
             template: './src/views/page/machineterlist.html',
@@ -107,7 +107,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','list']
+            chunks: ['config', 'list']
         }),
         new HtmlWebpackPlugin({  //machineter
             template: './src/views/page/machineter.html',
@@ -117,7 +117,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','crud']
+            chunks: ['config', 'crud']
         }),
         new HtmlWebpackPlugin({  //machinelog
             template: './src/views/page/machinelog.html',
@@ -127,7 +127,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','list']
+            chunks: ['config', 'list']
         }),
         new HtmlWebpackPlugin({  //machinerecord
             template: './src/views/page/machinerecord.html',
@@ -137,7 +137,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','list']
+            chunks: ['config', 'list']
         }),
         new HtmlWebpackPlugin({  //partclassification
             template: './src/views/page/partclassification.html',
@@ -147,7 +147,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','list']
+            chunks: ['config', 'list']
         }),
         new HtmlWebpackPlugin({  //spareparts
             template: './src/views/page/spareparts.html',
@@ -157,7 +157,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','list']
+            chunks: ['config', 'list']
         }),
         new HtmlWebpackPlugin({  //sparepart
             template: './src/views/page/sparepart.html',
@@ -167,7 +167,7 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','crud']
+            chunks: ['config', 'crud']
         }),
         new HtmlWebpackPlugin({  //partsapplication
             template: './src/views/page/partsapplication.html',
@@ -177,7 +177,37 @@ module.exports = {
                 collapseWhitespace: true
             },
             hash: true,
-            chunks: ['config','list']
+            chunks: ['config', 'list']
+        }),
+        new HtmlWebpackPlugin({  //stock
+            template: './src/views/page/stock.html',
+            filename: '../views/stock.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config', 'list']
+        }),
+        new HtmlWebpackPlugin({  //workOrder
+            template: './src/views/page/workorder.html',
+            filename: '../views/workorder.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config', 'list']
+        }),
+        new HtmlWebpackPlugin({  //cosorder
+            template: './src/views/page/cosorder.html',
+            filename: '../views/cosorder.htm',
+            minify: {
+                removeAttributeQuotes: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            chunks: ['config', 'crud']
         }),
         new MiniCssExtractPlugin({
             template: './src/public/stylesheets/base.min.css',

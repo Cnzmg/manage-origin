@@ -1,12 +1,3 @@
-import {vue} from "vue"
-export default {
-    data: () => ({
-        show2: true
-    }),
-    created(){
-        console.log(123);
-    }
-}
 new Vue({
     el: '#app',
     data: () => {
@@ -18,6 +9,7 @@ new Vue({
         }
     },
     created: function () {
+        const it = this;
         localStorage.getItem('uri') ? JSON.parse("[" + localStorage.getItem('uri') + "]").forEach((els, index) => {
             console.log('Testing：\n\n' + JSON.stringify(els.uri.split('?')[1]));
         }) : null;

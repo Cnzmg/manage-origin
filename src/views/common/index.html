@@ -46,7 +46,6 @@
                                 <el-submenu index="1">
                                     <template slot="title"><i class="el-icon-message"></i>用户管理</template>
                                     <el-menu-item-group>
-                                        <!-- <template slot="title">用户信息</template> -->
                                         <el-menu-item index="1-1" v-on:click="Href({uri:'../list.htm',title:'用户列表'})">
                                             用户列表
                                         </el-menu-item>
@@ -58,17 +57,18 @@
                                 <el-submenu index="2">
                                     <template slot="title"><i class="el-icon-menu"></i>师傅管理</template>
                                     <el-menu-item-group>
-                                        <!-- <template slot="title">师傅信息</template> -->
                                         <el-menu-item index="2-1"
                                             v-on:click="Href({uri:'../machineterlist.htm',title:'师傅列表'})">师傅列表
                                         </el-menu-item>
                                         <el-menu-item index="2-2"
                                             v-on:click="Href({uri:'../partsapplication.htm',title:'零件申请'})">
                                             零件申请</el-menu-item>
-                                        <el-menu-item index="2-3"
+                                        <el-menu-item index="2-3" v-on:click="Href({uri:'../stock.htm',title:'库存列表'})">
+                                            库存列表</el-menu-item>
+                                        <el-menu-item index="2-4"
                                             v-on:click="Href({uri:'../machinelog.htm',title:'维修日志'})">
                                             维修日志</el-menu-item>
-                                        <el-menu-item index="2-4"
+                                        <el-menu-item index="2-5"
                                             v-on:click="Href({uri:'../machinerecord.htm',title:'维修记录'})">维修记录
                                         </el-menu-item>
                                     </el-menu-item-group>
@@ -76,7 +76,6 @@
                                 <el-submenu index="3">
                                     <template slot="title"><i class="el-icon-setting"></i>商城管理</template>
                                     <el-menu-item-group>
-                                        <!-- <template slot="title">零件信息</template> -->
                                         <el-menu-item index="3-1"
                                             v-on:click="Href({uri:'../partclassification.htm',title:'零件分类'})">零件分类
                                         </el-menu-item>
@@ -85,34 +84,43 @@
                                             零件列表</el-menu-item>
                                     </el-menu-item-group>
                                 </el-submenu>
-                                <!-- <el-submenu index="4">
-                            <template slot="title"><i class="el-icon-setting"></i>附加费管理</template>
-                            <el-menu-item-group>
-                                <template slot="title">附加费信息</template>
-                                <el-menu-item index="4-1" v-on:click="Href({uri:'../page/list.html',action:6,name:'附加费用列表'})" >附加费用列表</el-menu-item>
-                            </el-menu-item-group>
-                        </el-submenu>
-                        <el-submenu index="5">
-                            <template slot="title"><i class="el-icon-setting"></i>设备租用</template>
-                            <el-menu-item-group>
-                                <template slot="title">租用信息</template>
-                                <el-menu-item index="4-1" v-on:click="Href({uri:'../page/list.html',action:6,name:'设备租用列表'})" >设备租用列表</el-menu-item>
-                            </el-menu-item-group>
-                        </el-submenu>
-                        <el-submenu index="6">
-                            <template slot="title"><i class="el-icon-setting"></i>商城管理</template>
-                            <el-menu-item-group>
-                                <template slot="title">商城信息</template>
-                                <el-menu-item index="4-1" v-on:click="Href({uri:'../page/list.html',action:6,name:'商城列表'})">商城列表</el-menu-item>
-                            </el-menu-item-group>
-                        </el-submenu>
-                        <el-submenu index="7">
-                            <template slot="title"><i class="el-icon-setting"></i>统计管理</template>
-                            <el-menu-item-group>
-                                <template slot="title">统计信息</template>
-                                <el-menu-item index="4-1" v-on:click="Href({uri:'../page/chart.html',action:6,name:'统计列表'})" >统计列表</el-menu-item>
-                            </el-menu-item-group>
-                        </el-submenu> -->
+                                <el-submenu index="4">
+                                    <template slot="title"><i class="el-icon-setting"></i>工单管理</template>
+                                    <el-menu-item-group>
+                                        <el-menu-item index="4-1"
+                                            v-on:click="Href({uri:'../workorder.htm',title:'工单列表'})">工单列表
+                                        </el-menu-item>
+                                    </el-menu-item-group>
+                                </el-submenu>
+
+
+                                <el-submenu index="5">
+                                    <template slot="title"><i class="el-icon-setting"></i>设备租用</template>
+                                    <el-menu-item-group>
+                                        <template slot="title">租用信息</template>
+                                        <el-menu-item index="4-1"
+                                            v-on:click="Href({uri:'../page/list.html',action:6,name:'设备租用列表'})">设备租用列表
+                                        </el-menu-item>
+                                    </el-menu-item-group>
+                                </el-submenu>
+                                <el-submenu index="6">
+                                    <template slot="title"><i class="el-icon-setting"></i>商城管理</template>
+                                    <el-menu-item-group>
+                                        <template slot="title">商城信息</template>
+                                        <el-menu-item index="4-1"
+                                            v-on:click="Href({uri:'../page/list.html',action:6,name:'商城列表'})">商城列表
+                                        </el-menu-item>
+                                    </el-menu-item-group>
+                                </el-submenu>
+                                <el-submenu index="7">
+                                    <template slot="title"><i class="el-icon-setting"></i>统计管理</template>
+                                    <el-menu-item-group>
+                                        <template slot="title">统计信息</template>
+                                        <el-menu-item index="4-1"
+                                            v-on:click="Href({uri:'../page/chart.html',action:6,name:'统计列表'})">统计列表
+                                        </el-menu-item>
+                                    </el-menu-item-group>
+                                </el-submenu>
                             </el-menu>
                         </el-aside>
                     </div>
@@ -129,6 +137,9 @@
                 style="border:none;width: 100%;height: 100%;" src="../index.htm" title="首页"></iframe>
         </el-container>
     </div>
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="../../plugin/_/element-ui.min.js"></script>
     <script>

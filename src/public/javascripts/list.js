@@ -127,7 +127,6 @@ new Vue({
                 async: false,
                 xmldata: _data,
                 done: function (res) {
-                    res.state = 200;
                     ym.init.RegCode('200').test(res.state) ? (() => {
                         switch (uri) {
                             case `admin_list`:  //后台管理用户
@@ -288,10 +287,9 @@ new Vue({
                                 }
                                 break;
                             case `sys_part_audit_list`:   //查看零件零件申请列表
-                                let arr = JSON.stringify([{id: Math.floor(Math.random() * 10),workId: 1,'maintainerId': 2,'realName': 2,'total': 2,'applyCount': 2,'createTime': 2,'status': 2},{id: Math.floor(Math.random() * 10),workId: 1,'maintainerId': 2,'realName': 2,'total': 2,'applyCount': 2,'createTime': 2,'status': 2}]);
-                                res.data = {}
-                                res.data['list'] = JSON.parse(arr);  //假数据
-
+                                // let arr = JSON.stringify([{id: Math.floor(Math.random() * 10),workId: 1,'maintainerId': 2,'realName': 2,'total': 2,'applyCount': 2,'createTime': 2,'status': 2},{id: Math.floor(Math.random() * 10),workId: 1,'maintainerId': 2,'realName': 2,'total': 2,'applyCount': 2,'createTime': 2,'status': 2}]);
+                                // res.data = {}
+                                // res.data['list'] = JSON.parse(arr);  //假数据
                                 for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
                                         id: res.data.list[i].id,
@@ -305,7 +303,7 @@ new Vue({
                                     })
                                 }
                                 break;
-                            case `find_machine_advertisement_list`:
+                            case `sys_part_inventory_list`:   //个人库存查询
                                 for (let i = 0; i < res.machineAdvertisementList.length; i++) {
                                     xml.push({
                                         madId: res.machineAdvertisementList[i].madId,
@@ -317,15 +315,7 @@ new Vue({
                                     })
                                 }
                                 break;
-                            case `manage_advertisement_list_list`:
-                                for (let i = 0; i < res.advertisementListList.length; i++) {
-                                    xml.push({
-                                        listId: res.advertisementListList[i].listId,
-                                        listName: res.advertisementListList[i].listName,
-                                    })
-                                }
-                                break;
-                            case `statistics_shop`:
+                            case `sys_maintain_work_list`:   //工单列表
                                 for (let i = 0; i < res.package.ShopMachine.length; i++) {
                                     xml.push({
                                         adminID: res.package.ShopMachine[i].adminID,
@@ -501,7 +491,9 @@ new Vue({
                         it.total = parseInt(res.data.total);
                         it.currentPage = parseInt(res.pageSize);  //数据总条数
                         it.tableData = xml;
-                        it.loading = false;
+                        setTimeout(()=>{
+                            it.loading = false;
+                        }, 1000)
                     })()
                         :
                         it.IError(res.msg);
