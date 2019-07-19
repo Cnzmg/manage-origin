@@ -31,7 +31,8 @@ new Vue({
                 for (let i = 0; i < local.length; i++) {
                     if (local[i].uri == e.uri) {
                         c.push(sessionStorage.getItem('uri'));
-                        return c;
+                        tag();  // 有相同的存储路径时 直接调用
+                        return false;
                     }
                 }
                 c.push(sessionStorage.getItem('uri'));
@@ -46,7 +47,7 @@ new Vue({
                 <use xlink:href="#ym-icon-guanbi"></use>
             </svg></i></li>`
             );
-            tag();  //
+            tag();  // 新的click才会执行
         },
         goback() {
             const it = this;

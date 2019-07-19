@@ -170,6 +170,12 @@ new Vue({
                 sort: '',
                 remark: '',
                 status: 1,
+                named: '', //创建维修单  --称呼
+                orderType: '', //创建维修单  --类型
+                faultRemark: '', //创建维修单  --故障描述
+                faultPic: '', //创建维修单  --故障图片
+                latitude: '', //创建维修单  --纬度
+                longitude: '', //创建维修单  --经度
             },
             rules: {
                 adminName: [
@@ -200,7 +206,8 @@ new Vue({
                 picHeaders: [],
                 IDFor: [],
                 IDBeh: [],
-                partPic: []
+                partPic: [],
+                faultPic: []
             },
             disAdminName: false,
             sect: {
@@ -339,7 +346,7 @@ new Vue({
                 done: function (res) {
                     ym.init.RegCode(token._j.successfull).test(res.state) ? (() => {
                         switch (uri) {
-                            case 'add_or_update_admin':
+                            case 'add_or_update_admin':  //查询管理用户
                                 it.disAdminName = true;
                                 it.ruleForm.adminName = res.data.adminName;
                                 it.ruleForm.phone = res.data.phone;
@@ -348,7 +355,7 @@ new Vue({
                                 it.ruleForm.parentId = (res.data.parentId == -1 ? "" : res.data.parentId);
                                 it.ruleForm.isService = res.data.isService;
                                 break;
-                            case 'add_or_update_maintainer':
+                            case 'add_or_update_maintainer': //查询维修师傅
                                 try {
                                     it.ruleForm.accounts = res.data.accounts;  //账号
                                     it.ruleForm.phone = res.data.phone;  //手机号码
@@ -381,7 +388,7 @@ new Vue({
                                     throw error;
                                 }
                                 break;
-                            case 'add_or_update_part_info':
+                            case 'add_or_update_part_info':   //查询更新零件
                                 try {
                                     it.ruleForm.partNumber = res.data.partNumber;  //账号
                                     it.ruleForm.partName = res.data.partName;  //手机号码
@@ -417,6 +424,9 @@ new Vue({
                                     throw error;
                                 }
                                 break;
+                            case 'add_or_update_repairs_order':
+                                console.log(res)
+                                break;
                             default:
                                 break;
                         }
@@ -430,7 +440,6 @@ new Vue({
             })
         },
         handleRemove(file, fileList) {  //删除图片
-            // console.log(file, fileList);
             _data['fileName'] = file.response.data.path;
             const it = this;
             ym.init.XML({
@@ -471,13 +480,16 @@ new Vue({
         fileIDBehSuccess(e) {  //身份证反面文件上传成功
             this.ruleForm.identityBehind = e.data.path;
         },
-        submitForm(formName) {  //提交管理员信息
+        filefaultPicPicSuccess(e){ //故障描述图片
+            this.ruleForm.faultPic = e.data.path;
+        },
+        submitForm(formName) {  //提交信息
             const it = this;
             if (dataHref.split('*').length > 1) {
                 _data['id'] = JSON.parse(decodeURI(dataHref.split('*')[1])).id;  //统一的编辑id
             }
             switch (uri) {
-                case 'add_or_update_maintainer':  //添加运维
+                case 'add_or_update_maintainer':  //新增/更新一个维修人员:
                     _data['accounts'] = formName.accounts || '';
                     _data['pwd'] = formName.pwd || '';
                     _data['phone'] = formName.phone || '';
@@ -501,7 +513,7 @@ new Vue({
                     _data['country'] = formName.country || '';
                     _data['royaltyRate'] = formName.royaltyRate || 0;
                     break;
-                case 'add_or_update_part_info':
+                case 'add_or_update_part_info': //新增/更新一个零件
                     _data['partNumber'] = formName.partNumber || '';
                     _data['partName'] = formName.partName || '';
                     _data['modules'] = formName.modules || '';
@@ -525,7 +537,22 @@ new Vue({
                     _data['remark'] = formName.remark || '';
                     _data['status'] = formName.status;
                     break;
-                default:
+                case 'add_or_update_repairs_order':
+                    console.log(formName)
+                    _data['named'] = formName.named  //称呼
+                    _data['phone'] = formName.phone  //手机号
+                    _data['faultRemark'] = formName.faultRemark  //故障描述
+                    _data['faultPic'] = it.ruleForm.faultPic  //故障图(暂时是单图,有可能拓展为多图)
+                    _data['province'] = CodeToText[it.ruleForm.province[0]]  //省
+                    _data['city'] = CodeToText[it.ruleForm.province[1]]  //市
+                    _data['district'] = CodeToText[it.ruleForm.province[2]]  //区
+                    _data['address'] = formName.address  //详细地址
+                    _data['longitude'] = formName.longitude  //经度
+                    _data['latitude'] = formName.latitude  //纬度
+                    _data['orderType'] = formName.orderType  //报修单类型(1-维修单,2-运维单)
+
+                    break;
+                default:    //新增或更新一个管理员::
                     _data['adminName'] = formName.adminName || '';
                     _data['phone'] = formName.phone || '';
                     _data['pwd'] = formName.pwd || '';
@@ -598,7 +625,42 @@ new Vue({
         },
         handleChange(e) {
             //地区选项 CodeToText 
-            this.resetForm.province = e;
-        }
+            this.ruleForm.province = e;
+            this.newAmap();
+        },
+        newAmap() {
+            const it = this;
+            it.ruleForm.country = CodeToText[it.ruleForm.province[0]] + CodeToText[it.ruleForm.province[1]] + CodeToText[it.ruleForm.province[2]];  //country 此处参数暂定为搜索参数
+            var map = new AMap.Map('cityg', {
+                resizeEnable: true, //是否监控地图容器尺寸变化
+                zoom: 12 //初始化地图层级
+            });
+            map.on('click', function (e) {
+                it.ruleForm.latitude = e.lnglat.lat;  //纬度
+                it.ruleForm.longitude = e.lnglat.lng; //经度
+            });
+            AMap.plugin('AMap.PlaceSearch', function () {
+                var placeSearch = new AMap.PlaceSearch();
+                placeSearch.search(it.ruleForm.country, function (status, result) {
+                    // 查询成功时，result即对应匹配的POI信息
+                    if (typeof result.poiList === "undefined") {
+                        it.IError('Impact error! wrong keywords?');
+                        return false;
+                    }
+                    var pois = result.poiList.pois;
+                    for (var i = 0; i < pois.length; i++) {
+                        var poi = pois[i];
+                        var marker = [];
+                        marker[i] = new AMap.Marker({
+                            position: poi.location,   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+                            title: poi.name
+                        });
+                        // 将创建的点标记添加到已有的地图实例：
+                        map.add(marker[i]);
+                    }
+                    map.setFitView();
+                })
+            })
+        },
     }
 })

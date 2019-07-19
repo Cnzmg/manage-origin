@@ -232,7 +232,7 @@ new Vue({
                                         createTime: res.data[i].createTime,
                                         children: (() => {
                                             let xx = [];
-                                            if(res.data[i].subList == null) return {}
+                                            if (res.data[i].subList == null) return {}
                                             for (let j = 0; j < res.data[i].subList.length; j++) {
                                                 xx.push({
                                                     id: res.data[i].subList[j].id,
@@ -246,7 +246,7 @@ new Vue({
                                                     hasChildren: true,
                                                     children: (() => {
                                                         let xx = [];
-                                                        if(res.data[i].subList[j].subList == null) return []
+                                                        if (res.data[i].subList[j].subList == null) return []
                                                         for (let x = 0; x < res.data[i].subList[j].subList.length; x++) {
                                                             xx.push({
                                                                 id: res.data[i].subList[j].subList[x].id,
@@ -316,14 +316,20 @@ new Vue({
                                 }
                                 break;
                             case `sys_maintain_work_list`:   //工单列表
-                                for (let i = 0; i < res.package.ShopMachine.length; i++) {
+                                for (let i = 0; i < res.data.list.length; i++) {
                                     xml.push({
-                                        adminID: res.package.ShopMachine[i].adminID,
-                                        adminName: res.package.ShopMachine[i].adminName,
-                                        payMoney: res.package.ShopMachine[i].payMoney,
-                                        payCount: res.package.ShopMachine[i].payCount,
-                                        machineCount: res.package.ShopMachine[i].machineCount,
-                                        realName: res.package.ShopMachine[i].realName
+                                        id: res.data.list[i].workId,
+                                        orderId: res.data.list[i].orderId,
+                                        named: res.data.list[i].named,
+                                        phone: res.data.list[i].phone,
+                                        model: res.data.list[i].model,
+                                        maintainerId: res.data.list[i].maintainerId,
+                                        realName: res.data.list[i].realName,
+                                        orderType: res.data.list[i].orderType,
+                                        workType: res.data.list[i].workType,
+                                        status: res.data.list[i].status,
+                                        maintainStatus: res.data.list[i].maintainStatus,
+                                        createTime: res.data.list[i].createTime
                                     })
                                 }
                                 break;
@@ -491,7 +497,7 @@ new Vue({
                         it.total = parseInt(res.data.total);
                         it.currentPage = parseInt(res.pageSize);  //数据总条数
                         it.tableData = xml;
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             it.loading = false;
                         }, 1000)
                     })()
@@ -771,6 +777,7 @@ new Vue({
         search(e) {  //查询维修数据 & 查询零件数据
             const it = this;
             _data['id'] = e.enitId.id
+            if (e.uri == "sys_maintain_work_detail") { _data['workId'] = e.enitId.id; delete _data['id'] }
             ym.init.XML({
                 method: 'GET',
                 uri: token._j.URLS.Development_Server_ + e.uri,
@@ -814,10 +821,10 @@ new Vue({
                 resolve(tree.children);
             }, 500)
         },
-        submitForm(e){  //列表添加/ 更新
+        submitForm(e) {  //列表添加/ 更新
             const it = this;
             _data = {};  //清空 data 
-            if(e.id){
+            if (e.id) {
                 _data['id'] = e.id
             }
             _data['classifyName'] = e.classifyName;
@@ -846,6 +853,30 @@ new Vue({
                 }
             });
 
-        }
+        },
+        send() {  //直接执行类似的操作
+            const it = this;
+            ym.init.XML({
+                method: 'POST',
+                uri: token._j.URLS.Development_Server_ + 'add_or_update_part_classify',
+                async: false,
+                xmldata: _data,
+                done: function (res) {
+                    try {
+                        ym.init.RegCode(token._j.successfull).test(res.state) ? (() => {
+                            it.ISuccessfull(res.msg);
+                            _data = {};  //清空 data 
+                            it.UpdateTableAndVisible = false;
+                            it.SearchTableAndVisible = false;
+                            it.list();
+                        })() : (() => {
+                            throw "收集到错误：\n\n" + res.msg;
+                        })();
+                    } catch (error) {
+                        it.IError(error);
+                    }
+                }
+            });
+        },
     }
 });

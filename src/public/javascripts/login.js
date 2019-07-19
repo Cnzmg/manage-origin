@@ -76,7 +76,7 @@ new Vue({
             const _this = this, _data = {};
             _this.loading = true;
             if(_this.loginData.ecode.toUpperCase() != ecode) {
-                _this.IError('验证码错误')
+                _this.IError('验证码错误     '+ ecode)
                 throw '收集到错误：\n\n' + ecode
             }
             _data['account'] = e.name;
