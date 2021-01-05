@@ -4,7 +4,7 @@
   "description": "",
   "main": "config.js",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "webpack": "^4.34.0",
     "webpack-cli": "^3.3.4"
   },
